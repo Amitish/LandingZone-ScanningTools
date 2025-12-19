@@ -239,15 +239,6 @@ It is suitable for:
 
 ---
 
-## 🧠 Future Enhancements
-
-* Remote backend (Azure Storage + State Locking)
-* Policy as Code via OPA
-* Multi‑environment promotion (dev → test → prod)
-* GitHub Actions support
-* SARIF report integration
-
----
 
 ## 🤝 Contributions
 
