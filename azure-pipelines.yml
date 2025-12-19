@@ -26,12 +26,12 @@ stages:
     steps:
     - task: CmdLine@2
       inputs:
-        targetType: 'inline'
         script: |
-          echo Installing Terraform...
-          curl -L -o terraform.zip https://releases.hashicorp.com/terraform/1.66/terraform_1.6.6_windows_amd64.zip
-          tar -xf terraform.zip
-          move terraform.exe C:\Windows\System32\
+          echo Installing Terraform using PowerShell exe...
+          C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -Command ^
+          "Invoke-WebRequest https://releases.hashicorp.com/terraform/1.6.6/terraform_1.6.6_windows_amd64.zip -OutFile terraform.zip; ^
+          Expand-Archive terraform.zip -DestinationPath . -Force; ^
+          Move-Item terraform.exe C:\Windows\System32\ -Force"
           terraform version
 
     - task: TerraformTask@5
