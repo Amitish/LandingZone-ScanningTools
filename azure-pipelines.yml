@@ -24,10 +24,15 @@ stages:
   - job: letsbegin
     displayName: Start
     steps:
-
-    - task: TerraformInstaller@1
+    - task: PowerShell@2
       inputs:
-        terraformVersion: 'latest'
+        targetType: 'inline'
+        script: |
+          echo Installing Terraform...
+          curl -L -o terraform.zip https://releases.hashicorp.com/terraform/1.66/terraform_1.6.6_windows_amd64.zip
+          tar -xf terraform.zip
+          move terraform.exe C:\Windows\System32\
+          terraform version
 
     - task: TerraformTask@5
       displayName: Terraform Init
