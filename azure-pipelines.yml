@@ -1,0 +1,46 @@
+trigger: none
+
+pool: mera-agent-pool
+
+jobs:
+- job: terraforminit
+  displayName: Terraform init
+  steps:
+  - task: TerraformInstaller@1
+    displayName: Install
+    inputs:
+      terraformVersion: 'latest'
+
+  - task: TerraformTask@5
+    displayName: Init
+    inputs:
+      provider: 'azurerm'
+      command: 'init'
+      workingDirectory: '$(System.DefaultWorkingDirectory)\Environment\dev'
+      backendServiceArm: 'new-service'
+      backendAzureRmStorageAccountName: 'stglactab'
+      backendAzureRmContainerName: 'cntrlab'
+      backendAzureRmKey: 'manage.tfstate'
+
+- job: terraformplan
+  dependsOn: terraforminit
+  displayName: Terraform Plan
+  steps:
+  - task: TerraformTask@5
+    displayName: Init
+    inputs:
+      provider: 'azurerm'
+      command: 'init'
+      workingDirectory: '$(System.DefaultWorkingDirectory)\Environment\dev'
+      backendServiceArm: 'new-service'
+      backendAzureRmStorageAccountName: 'stglactab'
+      backendAzureRmContainerName: 'cntrlab'
+      backendAzureRmKey: 'manage.tfstate'
+
+  - task: TerraformTask@5
+    displayName: Plan
+    inputs:
+      provider: 'azurerm'
+      command: 'plan'
+      workingDirectory: '$(System.DefaultWorkingDirectory)\Environment\dev'
+      environmentServiceNameAzureRM: 'new-service'

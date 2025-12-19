@@ -1,0 +1,51 @@
+[1mProject:[22m Amitish/Landing-Zone-ADO/Environment\dev\tfplan
+
+ [4mName[24m                                                                   [4mMonthly Qty[24m  [4mUnit[24m                      [4mMonthly Cost[24m   
+                                                                                                                              
+ [1mmodule.compute.azurerm_linux_virtual_machine.vm["vm1"][22m                                                                       
+ [2m├─[22m Instance usage (Linux, pay as you go, Standard_F2)                          730  hours                           $72.27   
+ [2m└─[22m os_disk                                                                                                                   
+ [2m   ├─[22m Storage (S4, LRS)                                                          1  months                           $1.54   
+ [2m   └─[22m Disk operations                                           Monthly cost depends on usage: $0.0005 per 10k operations    
+                                                                                                                              
+ [1mmodule.compute.azurerm_linux_virtual_machine.vm["vm2"][22m                                                                       
+ [2m├─[22m Instance usage (Linux, pay as you go, Standard_F2)                          730  hours                           $72.27   
+ [2m└─[22m os_disk                                                                                                                   
+ [2m   ├─[22m Storage (S4, LRS)                                                          1  months                           $1.54   
+ [2m   └─[22m Disk operations                                           Monthly cost depends on usage: $0.0005 per 10k operations    
+                                                                                                                              
+ [1mmodule.container_registry.azurerm_container_registry.acr["c1"][22m                                                               
+ [2m├─[22m Registry usage (Standard)                                                    30  days                            $20.00   
+ [2m├─[22m Storage (over 100GB)                                         Monthly cost depends on usage: $0.10 per GB                  
+ [2m└─[22m Build vCPU                                                   Monthly cost depends on usage: $0.0001 per seconds           
+                                                                                                                              
+ [1mmodule.container_registry.azurerm_container_registry.acr["c2"][22m                                                               
+ [2m├─[22m Registry usage (Standard)                                                    30  days                            $20.00   
+ [2m├─[22m Storage (over 100GB)                                         Monthly cost depends on usage: $0.10 per GB                  
+ [2m└─[22m Build vCPU                                                   Monthly cost depends on usage: $0.0001 per seconds           
+                                                                                                                              
+ [1mmodule.sql_database.azurerm_mssql_database.sql_db[22m                                                                            
+ [2m├─[22m Compute (S0)                                                                730  hours                           $14.72   
+ [2m├─[22m Long-term retention (RA-GRS)                                 Monthly cost depends on usage: $0.05 per GB                  
+ [2m└─[22m PITR backup storage (RA-GRS)                                 Monthly cost depends on usage: $0.20 per GB                  
+                                                                                                                              
+ [1mmodule.public_ip.azurerm_public_ip.pip["pip1"][22m                                                                               
+ [2m└─[22m IP address (dynamic, regional)                                              730  hours                            $2.92   
+                                                                                                                              
+ [1mmodule.public_ip.azurerm_public_ip.pip["pip2"][22m                                                                               
+ [2m└─[22m IP address (dynamic, regional)                                              730  hours                            $2.92   
+                                                                                                                              
+[1m OVERALL TOTAL[22m                                                                                                     $208.17 
+
+*Usage costs can be estimated by updating Infracost Cloud settings, see docs for other options.
+
+──────────────────────────────────
+23 cloud resources were detected:
+∙ 7 were estimated
+∙ 16 were free
+
+┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━┳━━━━━━━━━━━━┓
+┃ Project                                            ┃ Baseline cost ┃ Usage cost* ┃ Total cost ┃
+┣━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╋━━━━━━━━━━━━━━━╋━━━━━━━━━━━━━╋━━━━━━━━━━━━┫
+┃ Amitish/Landing-Zone-ADO/Environment\dev\tfplan    ┃          $208 ┃           - ┃       $208 ┃
+┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┻━━━━━━━━━━━━━━━┻━━━━━━━━━━━━━┻━━━━━━━━━━━━┛
