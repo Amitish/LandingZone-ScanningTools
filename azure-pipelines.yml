@@ -18,45 +18,47 @@ variables:
   value: $(System.DefaultWorkingDirectory)\Environment\${{ parameters.environment }}
 
 
-jobs:
-- job: terraforminit
-  displayName: Terraform init
-  steps:
-  - task: TerraformInstaller@1
-    displayName: Install
-    inputs:
-      terraformVersion: 'latest'
+stages:
+- stage: 
+  jobs:
+  - job: terraforminit
+    displayName: Terraform init
+    steps:
+    - task: TerraformInstaller@1
+      displayName: Install Terraform
+      inputs:
+        terraformVersion: 'latest'
 
-  - task: TerraformTask@5
-    displayName: Init
-    inputs:
-      provider: 'azurerm'
-      command: 'init'
-      workingDirectory: '$(path)'
-      backendServiceArm: 'new-service'
-      backendAzureRmStorageAccountName: 'stglactab'
-      backendAzureRmContainerName: 'cntrlab'
-      backendAzureRmKey: '${{ parameters.environment }}.tfstate'
+    - task: TerraformTask@5
+      displayName: Terraform Init
+      inputs:
+        provider: 'azurerm'
+        command: 'init'
+        workingDirectory: '$(path)'
+        backendServiceArm: 'new-service'
+        backendAzureRmStorageAccountName: 'stglactab'
+        backendAzureRmContainerName: 'cntrlab'
+        backendAzureRmKey: '${{ parameters.environment }}.tfstate'
 
-- job: terraformplan
-  dependsOn: terraforminit
-  displayName: Terraform Plan
-  steps:
-  - task: TerraformTask@5
-    displayName: Init
-    inputs:
-      provider: 'azurerm'
-      command: 'init'
-      workingDirectory: '$(path)'
-      backendServiceArm: 'new-service'
-      backendAzureRmStorageAccountName: 'stglactab'
-      backendAzureRmContainerName: 'cntrlab'
-      backendAzureRmKey: '${{ parameters.environment }}.tfstate'
+  - job: terraformplan
+    dependsOn: terraforminit
+    displayName: Terraform Plan
+    steps:
+    - task: TerraformTask@5
+      displayName: Init
+      inputs:
+        provider: 'azurerm'
+        command: 'init'
+        workingDirectory: '$(path)'
+        backendServiceArm: 'new-service'
+        backendAzureRmStorageAccountName: 'stglactab'
+        backendAzureRmContainerName: 'cntrlab'
+        backendAzureRmKey: '${{ parameters.environment }}.tfstate'
 
-  - task: TerraformTask@5
-    displayName: Plan
-    inputs:
-      provider: 'azurerm'
-      command: 'plan'
-      workingDirectory: '$(path)'
-      environmentServiceNameAzureRM: 'new-service'
+    - task: TerraformTask@5
+      displayName: Plan
+      inputs:
+        provider: 'azurerm'
+        command: 'plan'
+        workingDirectory: '$(path)'
+        environmentServiceNameAzureRM: 'new-service'
