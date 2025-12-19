@@ -1,6 +1,6 @@
 trigger: none
 
-pool: mera-agent-pool
+pool: mera-pool
 
 # variables: 
 #   path: $(System.DefaultWorkingDirectory)\Environment\dev
