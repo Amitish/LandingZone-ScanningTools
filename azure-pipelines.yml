@@ -24,6 +24,14 @@ stages:
   - job: letsbegin
     displayName: Start
     steps:
+    - task: PowerShell@2
+      displayName: Agent sanity check
+      inputs:
+        targetType: 'inline'
+        script: |
+          whoami
+          where powershell
+
     - task: TerraformInstaller@1
       inputs:
         terraformVersion: 'latest'
