@@ -68,14 +68,14 @@ stages:
         script: |
           terraform plan ^
             -out=tfplan ^
-            -var-file="${{ parameters.environment }}.tfvars"
+            -var-file="terraform.tfvars"
         workingDirectory: $(tf_path)
 
     # ==============================
     # 5️⃣ Terraform Apply (manual approval recommended)
-    # ==============================
-    - task: CmdLine@2
-      displayName: Terraform Apply
-      inputs:
-        script: terraform apply tfplan
-        workingDirectory: $(tf_path)
+    # # ==============================
+    # - task: CmdLine@2
+    #   displayName: Terraform Apply
+    #   inputs:
+    #     script: terraform apply tfplan
+    #     workingDirectory: $(tf_path)
