@@ -2,6 +2,21 @@ trigger: none
 
 pool: mera-agent-pool
 
+# variables: 
+#   path: $(System.DefaultWorkingDirectory)\Environment\dev
+
+parameters:
+- name: environment
+  type: string
+  values:
+    - dev
+    - prod
+
+variables:
+- name: path
+  value: $(System.DefaultWorkingDirectory)\Environment\${{ parameters.environment }}
+
+
 jobs:
 - job: terraforminit
   displayName: Terraform init
@@ -16,7 +31,7 @@ jobs:
     inputs:
       provider: 'azurerm'
       command: 'init'
-      workingDirectory: '$(System.DefaultWorkingDirectory)\Environment\dev'
+      workingDirectory: '$(path)'
       backendServiceArm: 'new-service'
       backendAzureRmStorageAccountName: 'stglactab'
       backendAzureRmContainerName: 'cntrlab'
@@ -31,7 +46,7 @@ jobs:
     inputs:
       provider: 'azurerm'
       command: 'init'
-      workingDirectory: '$(System.DefaultWorkingDirectory)\Environment\dev'
+      workingDirectory: '$(path)'
       backendServiceArm: 'new-service'
       backendAzureRmStorageAccountName: 'stglactab'
       backendAzureRmContainerName: 'cntrlab'
@@ -42,5 +57,5 @@ jobs:
     inputs:
       provider: 'azurerm'
       command: 'plan'
-      workingDirectory: '$(System.DefaultWorkingDirectory)\Environment\dev'
+      workingDirectory: '$(path)'
       environmentServiceNameAzureRM: 'new-service'
