@@ -29,8 +29,8 @@ stages:
       inputs:
         targetType: 'inline'
         script: |
-          whoami
-          where powershell
+          C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -Command "whoami"
+            displayName: PowerShell full path test
 
     - task: TerraformInstaller@1
       inputs:
