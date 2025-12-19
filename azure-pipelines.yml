@@ -1,9 +1,7 @@
 trigger: none
 
-pool: mera-pool
-
-# variables: 
-#   path: $(System.DefaultWorkingDirectory)\Environment\dev
+pool:
+  name: mera-pool
 
 parameters:
 - name: environment
@@ -14,56 +12,70 @@ parameters:
     - prod
 
 variables:
-- name: path
+- name: tf_path
   value: $(System.DefaultWorkingDirectory)\Environment\${{ parameters.environment }}
 
-
 stages:
-- stage: 
+- stage: Terraform
+  displayName: Terraform CI
   jobs:
-  - job: letsbegin
-    displayName: Start
+  - job: TerraformJob
+    displayName: Terraform Flow
     steps:
+
+    # ==============================
+    # 1️⃣ Install Terraform (CMD + PS exe)
+    # ==============================
     - task: CmdLine@2
+      displayName: Install Terraform
       inputs:
         script: |
-          echo Installing Terraform using PowerShell exe...
+          echo Installing Terraform...
           C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -Command ^
           "Invoke-WebRequest https://releases.hashicorp.com/terraform/1.6.6/terraform_1.6.6_windows_amd64.zip -OutFile terraform.zip; ^
           Expand-Archive terraform.zip -DestinationPath . -Force; ^
           Move-Item terraform.exe C:\Windows\System32\ -Force"
           terraform version
 
-    - task: TerraformTask@5
+    # ==============================
+    # 2️⃣ Terraform Init
+    # ==============================
+    - task: CmdLine@2
       displayName: Terraform Init
       inputs:
-        provider: 'azurerm'
-        command: 'init'
-        workingDirectory: '$(path)'
-        backendServiceArm: 'new-service'
-        backendAzureRmStorageAccountName: 'stglactab'
-        backendAzureRmContainerName: 'cntrlab'
-        backendAzureRmKey: '${{ parameters.environment }}.tfstate'
+        script: |
+          terraform init ^
+            -backend-config="storage_account_name=stglactab" ^
+            -backend-config="container_name=cntrlab" ^
+            -backend-config="key=${{ parameters.environment }}.tfstate"
+        workingDirectory: $(tf_path)
 
-  - job: terraformplan
-    dependsOn: letsbegin
-    displayName: Terraform Plan
-    steps:
-    - task: TerraformTask@5
-      displayName: Init
+    # ==============================
+    # 3️⃣ Terraform Validate
+    # ==============================
+    - task: CmdLine@2
+      displayName: Terraform Validate
       inputs:
-        provider: 'azurerm'
-        command: 'init'
-        workingDirectory: '$(path)'
-        backendServiceArm: 'new-service'
-        backendAzureRmStorageAccountName: 'stglactab'
-        backendAzureRmContainerName: 'cntrlab'
-        backendAzureRmKey: '${{ parameters.environment }}.tfstate'
+        script: terraform validate
+        workingDirectory: $(tf_path)
 
-    - task: TerraformTask@5
-      displayName: Plan
+    # ==============================
+    # 4️⃣ Terraform Plan
+    # ==============================
+    - task: CmdLine@2
+      displayName: Terraform Plan
       inputs:
-        provider: 'azurerm'
-        command: 'plan'
-        workingDirectory: '$(path)'
-        environmentServiceNameAzureRM: 'new-service'
+        script: |
+          terraform plan ^
+            -out=tfplan ^
+            -var-file="${{ parameters.environment }}.tfvars"
+        workingDirectory: $(tf_path)
+
+    # ==============================
+    # 5️⃣ Terraform Apply (manual approval recommended)
+    # ==============================
+    - task: CmdLine@2
+      displayName: Terraform Apply
+      inputs:
+        script: terraform apply tfplan
+        workingDirectory: $(tf_path)
