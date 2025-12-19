@@ -8,6 +8,7 @@ pool: mera-agent-pool
 parameters:
 - name: environment
   type: string
+  default: dev
   values:
     - dev
     - prod
@@ -35,7 +36,7 @@ jobs:
       backendServiceArm: 'new-service'
       backendAzureRmStorageAccountName: 'stglactab'
       backendAzureRmContainerName: 'cntrlab'
-      backendAzureRmKey: 'manage.tfstate'
+      backendAzureRmKey: '${{ parameters.environment }}.tfstate'
 
 - job: terraformplan
   dependsOn: terraforminit
@@ -50,7 +51,7 @@ jobs:
       backendServiceArm: 'new-service'
       backendAzureRmStorageAccountName: 'stglactab'
       backendAzureRmContainerName: 'cntrlab'
-      backendAzureRmKey: 'manage.tfstate'
+      backendAzureRmKey: '${{ parameters.environment }}.tfstate'
 
   - task: TerraformTask@5
     displayName: Plan
