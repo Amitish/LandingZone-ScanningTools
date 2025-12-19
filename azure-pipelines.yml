@@ -21,8 +21,8 @@ variables:
 stages:
 - stage: 
   jobs:
-  - job: terraforminit
-    displayName: Terraform init
+  - job: letsbegin
+    displayName: Start
     steps:
     - task: TerraformInstaller@1
       displayName: Install Terraform
@@ -41,7 +41,7 @@ stages:
         backendAzureRmKey: '${{ parameters.environment }}.tfstate'
 
   - job: terraformplan
-    dependsOn: terraforminit
+    dependsOn: letsbegin
     displayName: Terraform Plan
     steps:
     - task: TerraformTask@5
