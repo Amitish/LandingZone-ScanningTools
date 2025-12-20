@@ -51,7 +51,7 @@ stages:
         script: |
           cd $(System.DefaultWorkingDirectory)
           tflint --recursive
-          tflint --recursice --format=json > tflint_report.json
+          tflint --format=json > tflint_report.json
 
 
     # - task: CmdLine@2
