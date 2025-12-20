@@ -12,7 +12,7 @@ parameters:
     - prod
 
 variables:
-- name: tf_path
+- name: path
   value: $(System.DefaultWorkingDirectory)\Environment\${{ parameters.environment }}
 
 stages:
@@ -33,59 +33,12 @@ stages:
       inputs:
         terraformVersion: 'latest'
 
-    # # ==============================
-    # # 1️⃣ Install Terraform (CMD + PS exe)
-    # # ==============================
-    # - task: CmdLine@2
-    #   displayName: Install Terraform
-    #   inputs:
-    #     script: |
-    #       echo Installing Terraform...
-    #       C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -Command ^
-    #       "Invoke-WebRequest https://releases.hashicorp.com/terraform/1.6.6/terraform_1.6.6_windows_amd64.zip -OutFile terraform.zip; ^
-    #       Expand-Archive terraform.zip -DestinationPath . -Force; ^
-    #       Move-Item terraform.exe C:\Windows\System32\ -Force"
-    #       terraform version
-
-    # # ==============================
-    # # 2️⃣ Terraform Init
-    # # ==============================
-    # - task: CmdLine@2
-    #   displayName: Terraform Init
-    #   inputs:
-    #     script: |
-    #       terraform init ^
-    #         -backend-config="storage_account_name=stglactab" ^
-    #         -backend-config="container_name=cntrlab" ^
-    #         -backend-config="key=${{ parameters.environment }}.tfstate"
-    #     workingDirectory: $(tf_path)
-
-    # # ==============================
-    # # 3️⃣ Terraform Validate
-    # # ==============================
-    # - task: CmdLine@2
-    #   displayName: Terraform Validate
-    #   inputs:
-    #     script: terraform validate
-    #     workingDirectory: $(tf_path)
-
-    # # ==============================
-    # # 4️⃣ Terraform Plan
-    # # ==============================
-    # - task: CmdLine@2
-    #   displayName: Terraform Plan
-    #   inputs:
-    #     script: |
-    #       terraform plan ^
-    #         -out=tfplan ^
-    #         -var-file="terraform.tfvars"
-    #     workingDirectory: $(tf_path)
-
-    # # ==============================
-    # # 5️⃣ Terraform Apply (manual approval recommended)
-    # # # ==============================
-    # # - task: CmdLine@2
-    # #   displayName: Terraform Apply
-    # #   inputs:
-    # #     script: terraform apply tfplan
-    # #     workingDirectory: $(tf_path)
+    - task: TerraformTask@5
+      displayName: Init...
+      inputs:
+        provider: 'azurerm'
+        command: 'init'
+        workingDirectory: '$(path)'
+        backendAzureRmStorageAccountName: 'stglactab'
+        backendAzureRmContainerName: 'cntrlab'
+        backendAzureRmKey: '${{ parameters.environment }}.tfstate'
