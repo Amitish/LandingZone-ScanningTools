@@ -22,60 +22,67 @@ stages:
   - job: TerraformJob
     displayName: Terraform Flow
     steps:
-
-    # ==============================
-    # 1️⃣ Install Terraform (CMD + PS exe)
-    # ==============================
-    - task: CmdLine@2
-      displayName: Install Terraform
+    - task: PowerShell@2
       inputs:
+        targetType: 'inline'
         script: |
-          echo Installing Terraform...
-          C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -Command ^
-          "Invoke-WebRequest https://releases.hashicorp.com/terraform/1.6.6/terraform_1.6.6_windows_amd64.zip -OutFile terraform.zip; ^
-          Expand-Archive terraform.zip -DestinationPath . -Force; ^
-          Move-Item terraform.exe C:\Windows\System32\ -Force"
-          terraform version
+          # Write your PowerShell commands here.
+          
+          Write-Host "Hello World"
 
-    # ==============================
-    # 2️⃣ Terraform Init
-    # ==============================
-    - task: CmdLine@2
-      displayName: Terraform Init
-      inputs:
-        script: |
-          terraform init ^
-            -backend-config="storage_account_name=stglactab" ^
-            -backend-config="container_name=cntrlab" ^
-            -backend-config="key=${{ parameters.environment }}.tfstate"
-        workingDirectory: $(tf_path)
-
-    # ==============================
-    # 3️⃣ Terraform Validate
-    # ==============================
-    - task: CmdLine@2
-      displayName: Terraform Validate
-      inputs:
-        script: terraform validate
-        workingDirectory: $(tf_path)
-
-    # ==============================
-    # 4️⃣ Terraform Plan
-    # ==============================
-    - task: CmdLine@2
-      displayName: Terraform Plan
-      inputs:
-        script: |
-          terraform plan ^
-            -out=tfplan ^
-            -var-file="terraform.tfvars"
-        workingDirectory: $(tf_path)
-
-    # ==============================
-    # 5️⃣ Terraform Apply (manual approval recommended)
+    # # ==============================
+    # # 1️⃣ Install Terraform (CMD + PS exe)
     # # ==============================
     # - task: CmdLine@2
-    #   displayName: Terraform Apply
+    #   displayName: Install Terraform
     #   inputs:
-    #     script: terraform apply tfplan
+    #     script: |
+    #       echo Installing Terraform...
+    #       C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -Command ^
+    #       "Invoke-WebRequest https://releases.hashicorp.com/terraform/1.6.6/terraform_1.6.6_windows_amd64.zip -OutFile terraform.zip; ^
+    #       Expand-Archive terraform.zip -DestinationPath . -Force; ^
+    #       Move-Item terraform.exe C:\Windows\System32\ -Force"
+    #       terraform version
+
+    # # ==============================
+    # # 2️⃣ Terraform Init
+    # # ==============================
+    # - task: CmdLine@2
+    #   displayName: Terraform Init
+    #   inputs:
+    #     script: |
+    #       terraform init ^
+    #         -backend-config="storage_account_name=stglactab" ^
+    #         -backend-config="container_name=cntrlab" ^
+    #         -backend-config="key=${{ parameters.environment }}.tfstate"
     #     workingDirectory: $(tf_path)
+
+    # # ==============================
+    # # 3️⃣ Terraform Validate
+    # # ==============================
+    # - task: CmdLine@2
+    #   displayName: Terraform Validate
+    #   inputs:
+    #     script: terraform validate
+    #     workingDirectory: $(tf_path)
+
+    # # ==============================
+    # # 4️⃣ Terraform Plan
+    # # ==============================
+    # - task: CmdLine@2
+    #   displayName: Terraform Plan
+    #   inputs:
+    #     script: |
+    #       terraform plan ^
+    #         -out=tfplan ^
+    #         -var-file="terraform.tfvars"
+    #     workingDirectory: $(tf_path)
+
+    # # ==============================
+    # # 5️⃣ Terraform Apply (manual approval recommended)
+    # # # ==============================
+    # # - task: CmdLine@2
+    # #   displayName: Terraform Apply
+    # #   inputs:
+    # #     script: terraform apply tfplan
+    # #     workingDirectory: $(tf_path)
