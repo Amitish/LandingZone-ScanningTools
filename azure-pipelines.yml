@@ -29,21 +29,29 @@ stages:
         script: |         
           echo testing alpha charle 1 2 3 . . . 
 
-    - task: CmdLine@2
-      displayName: Install TFLint
-      inputs:
-        script: |
-          echo Installing TFLint...
-          C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -Command ^
-          "Invoke-WebRequest https://github.com/terraform-linters/tflint/releases/download/v0.50.3/tflint_windows_amd64.zip -OutFile tflint.zip; ^
-          Expand-Archive tflint.zip -DestinationPath . -Force; ^
-          Move-Item tflint.exe C:\Windows\System32\ -Force"
-          tflint --version
+    # - task: CmdLine@2
+    #   displayName: Install TFLint
+    #   inputs:
+    #     script: |
+    #       echo Installing TFLint...
+    #       C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -Command ^
+    #       "Invoke-WebRequest https://github.com/terraform-linters/tflint/releases/download/v0.50.3/tflint_windows_amd64.zip -OutFile tflint.zip; ^
+    #       Expand-Archive tflint.zip -DestinationPath . -Force; ^
+    #       Move-Item tflint.exe C:\Windows\System32\ -Force"
+    #       tflint --version
 
-    - task: CmdLine@2
-      continueOnError: true
-      displayName: Run TFLint
+    # - task: CmdLine@2
+    #   continueOnError: true
+    #   displayName: Run TFLint
+    #   inputs:
+    #     script: |
+    #       cd $(System.DefaultWorkingDirectory)
+    #       tflint --recursive
+    #       tflint --format=json > tflint_report.json
+
+    - task: PowerShell@2
       inputs:
+        targetType: 'inline'
         script: |
           cd $(System.DefaultWorkingDirectory)
           tflint --recursive
