@@ -29,10 +29,6 @@ stages:
         script: |         
           echo testing alpha charle 1 2 3 . . . 
 
-    # - task: TerraformInstaller@1
-    #   inputs:
-    #     terraformVersion: 'latest'
-
     - task: CmdLine@2
       displayName: Install TFLint
       inputs:
@@ -52,6 +48,12 @@ stages:
           cd $(System.DefaultWorkingDirectory)
           tflint --recursive
           tflint --format=json > tflint_report.json
+
+    - task: PublishPipelineArtifact@1
+      inputs:
+        targetPath: '$(System.DefaultWorkingDirectory)/tflint_report.json'
+        artifact: 'tflint_ki_report'
+        publishLocation: 'pipeline'
 
 
     # - task: CmdLine@2
