@@ -33,13 +33,13 @@ stages:
     #   inputs:
     #     terraformVersion: 'latest'
 
-    - task: PowerShell@2
-      displayName: TFlint
+    - task: CmdLine@2
+      displayName: TFLint
       inputs:
-        targetType: 'inline'
         script: |
           cd $(System.DefaultWorkingDirectory)
           tflint --recursive
+
 
     # - task: CmdLine@2
     #   displayName: Run TFLint
