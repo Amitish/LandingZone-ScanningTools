@@ -34,10 +34,17 @@ stages:
         script: |         
           echo testing alpha charle 1 2 3 . . . 
 
-
     - task: TerraformInstaller@1
       inputs:
         terraformVersion: 'latest'
+
+    - task: PowerShell@2
+      displayName: TFlint
+      inputs:
+        targetType: 'inline'
+        script: |
+          cd $(System.DefaultWorkingDirectory)
+          tflint --recursive
 
     # - task: TerraformTask@5
     #   displayName: Init...
