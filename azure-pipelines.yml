@@ -31,13 +31,13 @@ stages:
 
     - task: CmdLine@2
       inputs:
-        script: |
-          echo Write your commands here
-          
-          echo Hello world
-    # - task: TerraformInstaller@1
-    #   inputs:
-    #     terraformVersion: 'latest'
+        script: |         
+          echo testing alpha charle 1 2 3 . . . 
+
+
+    - task: TerraformInstaller@1
+      inputs:
+        terraformVersion: 'latest'
 
     # - task: TerraformTask@5
     #   displayName: Init...
