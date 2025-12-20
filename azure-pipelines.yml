@@ -51,8 +51,8 @@ stages:
       inputs:
         script: |
           echo "Running TFLint..."
-          cd $(System.DefaultWorkingDirectory)
-          tflint --recursive
+          
+          tflint --recursive D:\tflint_windows_386
 
 
     # - task: TerraformTask@5
