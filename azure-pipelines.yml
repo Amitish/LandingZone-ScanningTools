@@ -46,13 +46,31 @@ stages:
     #       cd $(System.DefaultWorkingDirectory)
     #       tflint --recursive
 
+    # - task: CmdLine@2
+    #   displayName: Run TFLint
+    #   inputs:
+    #     script: |
+    #       echo "Running TFLint..."
+          
+    #       tflint --recursive D:\tflint_windows_386
+
+    - task: CmdLine@2
+      displayName: Install TFLint
+      inputs:
+        script: |
+          echo Installing TFLint...
+          curl -L https://github.com/terraform-linters/tflint/releases/latest/download/tflint_windows_amd64.zip -o tflint.zip
+          tar -xf tflint.zip
+          move tflint.exe C:\Windows\System32\tflint.exe
+          tflint --version
+
     - task: CmdLine@2
       displayName: Run TFLint
       inputs:
         script: |
-          echo "Running TFLint..."
-          
-          tflint --recursive D:\tflint_windows_386
+          echo Running TFLint...
+          cd $(System.DefaultWorkingDirectory)
+          tflint --recursive
 
 
     # - task: TerraformTask@5
