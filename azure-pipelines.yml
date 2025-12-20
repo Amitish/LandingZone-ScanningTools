@@ -27,8 +27,11 @@ stages:
         targetType: 'inline'
         script: |
           # Write your PowerShell commands here.
-          
           Write-Host "Hello World"
+
+    - task: TerraformInstaller@1
+      inputs:
+        terraformVersion: 'latest'
 
     # # ==============================
     # # 1️⃣ Install Terraform (CMD + PS exe)
