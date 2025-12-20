@@ -47,10 +47,13 @@ stages:
     #       tflint --recursive
 
     - task: CmdLine@2
+      displayName: Run TFLint
       inputs:
         script: |
+          echo "Running TFLint..."
           cd $(System.DefaultWorkingDirectory)
           tflint --recursive
+
 
     # - task: TerraformTask@5
     #   displayName: Init...
