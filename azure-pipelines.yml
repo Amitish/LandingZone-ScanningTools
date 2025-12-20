@@ -29,16 +29,16 @@ stages:
           # Write your PowerShell commands here.
           Write-Host "Hello World"
 
-    - task: TerraformInstaller@1
-      inputs:
-        terraformVersion: 'latest'
+    # - task: TerraformInstaller@1
+    #   inputs:
+    #     terraformVersion: 'latest'
 
-    - task: TerraformTask@5
-      displayName: Init...
-      inputs:
-        provider: 'azurerm'
-        command: 'init'
-        workingDirectory: '$(path)'
-        backendAzureRmStorageAccountName: 'stglactab'
-        backendAzureRmContainerName: 'cntrlab'
-        backendAzureRmKey: '${{ parameters.environment }}.tfstate'
+    # - task: TerraformTask@5
+    #   displayName: Init...
+    #   inputs:
+    #     provider: 'azurerm'
+    #     command: 'init'
+    #     workingDirectory: '$(path)'
+    #     backendAzureRmStorageAccountName: 'stglactab'
+    #     backendAzureRmContainerName: 'cntrlab'
+    #     backendAzureRmKey: '${{ parameters.environment }}.tfstate'
