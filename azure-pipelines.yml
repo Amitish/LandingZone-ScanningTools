@@ -22,13 +22,7 @@ stages:
   - job: TerraformJob
     displayName: Terraform Flow
     steps:
-    # - task: PowerShell@2
-    #   inputs:
-    #     targetType: 'inline'
-    #     script: |
-    #       # Write your PowerShell commands here.
-    #       Write-Host "Hello World"
-
+ 
     - task: CmdLine@2
       inputs:
         script: |         
@@ -53,25 +47,16 @@ stages:
     #       echo "Running TFLint..."
           
     #       tflint --recursive D:\tflint_windows_386
-
-    - task: CmdLine@2
-      displayName: Install TFLint
+    - task: PowerShell@2
+      continueOnError: true
       inputs:
+        targetType: 'inline'
         script: |
-          echo Installing TFLint...
-          curl -L https://github.com/terraform-linters/tflint/releases/latest/download/tflint_windows_amd64.zip -o tflint.zip
-          tar -xf tflint.zip
-          move tflint.exe C:\Windows\System32\tflint.exe
-          tflint --version
-
-    - task: CmdLine@2
-      displayName: Run TFLint
-      inputs:
-        script: |
-          echo Running TFLint...
-          cd $(System.DefaultWorkingDirectory)
-          tflint --recursive
-
+          winget install TerraformLinters.tflint     
+          ls   
+          tflint
+        errorActionPreference: 'continue'        
+        workingDirectory: '$(path)'
 
     # - task: TerraformTask@5
     #   displayName: Init...
