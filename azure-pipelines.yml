@@ -24,6 +24,7 @@ stages:
     steps:
  
     - task: CmdLine@2
+      displayName: testing alpha charle 1 2 3 . . .
       inputs:
         script: |         
           echo testing alpha charle 1 2 3 . . . 
@@ -32,13 +33,13 @@ stages:
     #   inputs:
     #     terraformVersion: 'latest'
 
-    # - task: PowerShell@2
-    #   displayName: TFlint
-    #   inputs:
-    #     targetType: 'inline'
-    #     script: |
-    #       cd $(System.DefaultWorkingDirectory)
-    #       tflint --recursive
+    - task: PowerShell@2
+      displayName: TFlint
+      inputs:
+        targetType: 'inline'
+        script: |
+          cd $(System.DefaultWorkingDirectory)
+          tflint --recursive
 
     # - task: CmdLine@2
     #   displayName: Run TFLint
@@ -47,16 +48,16 @@ stages:
     #       echo "Running TFLint..."
           
     #       tflint --recursive D:\tflint_windows_386
-    - task: PowerShell@2
-      continueOnError: true
-      inputs:
-        targetType: 'inline'
-        script: |
-          winget install TerraformLinters.tflint     
-          ls   
-          tflint
-        errorActionPreference: 'continue'        
-        workingDirectory: '$(path)'
+    # - task: PowerShell@2
+    #   continueOnError: true
+    #   inputs:
+    #     targetType: 'inline'
+    #     script: |
+    #       winget install TerraformLinters.tflint     
+    #       ls   
+    #       tflint
+    #     errorActionPreference: 'continue'        
+    #     workingDirectory: '$(path)'
 
     # - task: TerraformTask@5
     #   displayName: Init...
