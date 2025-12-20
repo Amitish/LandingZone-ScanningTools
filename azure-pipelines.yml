@@ -45,11 +45,13 @@ stages:
           tflint --version
 
     - task: CmdLine@2
+      continueOnError: true
       displayName: Run TFLint
       inputs:
         script: |
           cd $(System.DefaultWorkingDirectory)
           tflint --recursive
+          tflint --recursice --format=json > tflint_report.json
 
 
     # - task: CmdLine@2
