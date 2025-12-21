@@ -38,14 +38,23 @@ stages:
         targetPath: '$(System.DefaultWorkingDirectory)/tflint_report.json'
         artifact: 'tflint_ki_report'
         publishLocation: 'pipeline'
+        
 
     - task: PowerShell@2
+      continueOnError: true
       displayName: Checkov Scanning ...
       inputs:
         targetType: 'inline'
         script: |
           cd $(System.DefaultWorkingDirectory)
-          checkov -d .
+          checkov -d . -o json --output-file-path checkov-report.json
+
+    - task: PublishPipelineArtifact@1
+      inputs:
+        targetPath: '$(System.DefaultWorkingDirectory)/checkov-report.json'
+        artifact: 'checkov_ki_report'
+        publishLocation: 'pipeline'
+
 
     # - task: tfsec@1
     #   displayName: Tfsec Scanning ...
