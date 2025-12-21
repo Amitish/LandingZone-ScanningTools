@@ -41,6 +41,7 @@ stages:
 
     - task: tfsec@1
       displayName: Tfsec Scanning
+      continueOnError: true
       inputs:
         version: 'v1.26.0'
         args: '--format sarif --out tfsec-report.sarif'
@@ -48,7 +49,6 @@ stages:
         
     - task: PublishPipelineArtifact@1
       displayName: Tfsec Report
-      continueOnError: true
       inputs:
         targetPath: '$(System.DefaultWorkingDirectory)/tfsec-report.sarif'
         artifact: 'tfsec_ki_report'
