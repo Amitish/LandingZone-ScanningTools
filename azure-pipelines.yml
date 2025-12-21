@@ -3,17 +3,17 @@ trigger: none
 pool:
   name: mera-pool
 
-parameters:
-- name: environment
-  type: string
-  default: dev
-  values:
-    - dev
-    - prod
+# parameters:
+# - name: environment
+#   type: string
+#   default: dev
+#   values:
+#     - dev
+#     - prod
 
-variables:
-- name: path
-  value: $(System.DefaultWorkingDirectory)\Environment\${{ parameters.environment }}
+# variables:
+# - name: path
+#   value: $(System.DefaultWorkingDirectory)\Environment\${{ parameters.environment }}
 
 stages:
 - stage: Terraform
@@ -50,6 +50,7 @@ stages:
     #       tflint --format=json > tflint_report.json
 
     - task: PowerShell@2
+      displayName: Tflint Scanning
       inputs:
         targetType: 'inline'
         script: |
@@ -64,6 +65,7 @@ stages:
         publishLocation: 'pipeline'
 
     - task: tfsec@1
+      displayName: Tfsec Scanning
       inputs:
         version: 'v1.26.0'
         dir: '$(System.DefaultWorkingDirectory)'
