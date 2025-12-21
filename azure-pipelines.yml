@@ -23,14 +23,14 @@ stages:
     displayName: Terraform Flow
     steps:
 
-    # - task: PowerShell@2
-    #   displayName: Tflint Scanning ...
-    #   inputs:
-    #     targetType: 'inline'
-    #     script: |
-    #       cd $(System.DefaultWorkingDirectory)
-    #       tflint --recursive
-    #       tflint --format=json > tflint_report.json
+    - task: PowerShell@2
+      displayName: Tflint Scanning ...
+      inputs:
+        targetType: 'inline'
+        script: |
+          cd $(System.DefaultWorkingDirectory)
+          tflint --recursive
+          tflint --format=json > tflint_report.json
 
     # - task: PublishPipelineArtifact@1
     #   displayName: Tflint Report
@@ -57,23 +57,23 @@ stages:
     #     publishLocation: 'pipeline'
 
     
-    - task: PowerShell@2
-      continueOnError: true
-      displayName: Terrascan Scanning ...
-      inputs:
-        targetType: 'inline'
-        script: |
-          cd $(System.DefaultWorkingDirectory)
-          terrascan init
-          terrascan scan -i terraform -d . -o json > terrascan-report.json
+    # - task: PowerShell@2
+    #   continueOnError: true
+    #   displayName: Terrascan Scanning ...
+    #   inputs:
+    #     targetType: 'inline'
+    #     script: |
+    #       cd $(System.DefaultWorkingDirectory)
+    #       terrascan init
+    #       terrascan scan -i terraform -d . -o json > terrascan-report.json
 
 
-    - task: PublishPipelineArtifact@1
-      displayName: Terrascan Report
-      inputs:
-        targetPath: '$(System.DefaultWorkingDirectory)/terrascan-report.json'
-        artifact: 'Terrascan_ki_report'
-        publishLocation: 'pipeline'
+    # - task: PublishPipelineArtifact@1
+    #   displayName: Terrascan Report
+    #   inputs:
+    #     targetPath: '$(System.DefaultWorkingDirectory)/terrascan-report.json'
+    #     artifact: 'Terrascan_ki_report'
+    #     publishLocation: 'pipeline'
 
 
     # - task: tfsec@1
@@ -92,7 +92,7 @@ stages:
     #     publishLocation: 'pipeline'
 
 
-
+####################################################################################################
 
 
     # - task: CmdLine@2
