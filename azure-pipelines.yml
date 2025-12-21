@@ -22,12 +22,47 @@ stages:
   - job: TerraformJob
     displayName: Terraform Flow
     steps:
- 
-    - task: CmdLine@2
-      displayName: testing alpha charle 1 2 3 . . .
+
+    - task: PowerShell@2
+      displayName: Tflint Scanning
       inputs:
-        script: |         
-          echo testing alpha charle 1 2 3 . . . 
+        targetType: 'inline'
+        script: |
+          cd $(System.DefaultWorkingDirectory)
+          tflint --recursive
+          tflint --format=json > tflint_report.json
+
+    - task: PublishPipelineArtifact@1
+      displayName: Tflint Report
+      inputs:
+        targetPath: '$(System.DefaultWorkingDirectory)/tflint_report.json'
+        artifact: 'tflint_ki_report'
+        publishLocation: 'pipeline'
+
+    - task: tfsec@1
+      displayName: Tfsec Scanning
+      inputs:
+        version: 'v1.26.0'
+        args: '--format sarif --out tfsec-report.sarif'
+        dir: '$(System.DefaultWorkingDirectory)'
+        
+    - task: PublishPipelineArtifact@1
+      displayName: Tfsec Report
+      continueOnError: true
+      inputs:
+        targetPath: '$(System.DefaultWorkingDirectory)/tfsec-report.sarif'
+        artifact: 'tfsec_ki_report'
+        publishLocation: 'pipeline'
+
+
+
+
+
+    # - task: CmdLine@2
+    #   displayName: testing alpha charle 1 2 3 . . .
+    #   inputs:
+    #     script: |         
+    #       echo testing alpha charle 1 2 3 . . . 
 
     # - task: CmdLine@2
     #   displayName: Install TFLint
@@ -48,27 +83,6 @@ stages:
     #       cd $(System.DefaultWorkingDirectory)
     #       tflint --recursive
     #       tflint --format=json > tflint_report.json
-
-    - task: PowerShell@2
-      displayName: Tflint Scanning
-      inputs:
-        targetType: 'inline'
-        script: |
-          cd $(System.DefaultWorkingDirectory)
-          tflint --recursive
-          tflint --format=json > tflint_report.json
-
-    - task: PublishPipelineArtifact@1
-      inputs:
-        targetPath: '$(System.DefaultWorkingDirectory)/tflint_report.json'
-        artifact: 'tflint_ki_report'
-        publishLocation: 'pipeline'
-
-    - task: tfsec@1
-      displayName: Tfsec Scanning
-      inputs:
-        version: 'v1.26.0'
-        dir: '$(System.DefaultWorkingDirectory)'
 
 
     # - task: CmdLine@2
