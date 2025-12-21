@@ -24,7 +24,7 @@ stages:
     steps:
 
     - task: PowerShell@2
-      displayName: Tflint Scanning
+      displayName: Tflint Scanning ...
       inputs:
         targetType: 'inline'
         script: |
@@ -39,8 +39,16 @@ stages:
         artifact: 'tflint_ki_report'
         publishLocation: 'pipeline'
 
+    - task: PowerShell@2
+      displayName: Checkov Scanning ...
+      inputs:
+        targetType: 'inline'
+        script: |
+          cd $(System.DefaultWorkingDirectory)
+          checkov -d .
+
     - task: tfsec@1
-      displayName: Tfsec Scanning
+      displayName: Tfsec Scanning ...
       continueOnError: true
       inputs:
         version: 'v1.26.0'
