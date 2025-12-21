@@ -65,14 +65,14 @@ stages:
         script: |
           cd $(System.DefaultWorkingDirectory)
           terrascan init
-          terrascan scan -t terraform -d . -o json > terrascan-report.json
+          terrascan scan -i terraform -d . -o json > terrascan-report.json
 
 
     - task: PublishPipelineArtifact@1
       displayName: Terrascan Report
       inputs:
         targetPath: '$(System.DefaultWorkingDirectory)/terrascan-report.json'
-        artifact: 'Terrascan Report'
+        artifact: 'Terrascan_ki_report'
         publishLocation: 'pipeline'
 
 
