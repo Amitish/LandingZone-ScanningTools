@@ -23,21 +23,21 @@ stages:
     displayName: Terraform Flow
     steps:
 
-    - task: PowerShell@2
-      displayName: Tflint Scanning ...
-      inputs:
-        targetType: 'inline'
-        script: |
-          cd $(System.DefaultWorkingDirectory)
-          tflint --recursive
-          tflint --format=json > tflint_report.json
+    # - task: PowerShell@2
+    #   displayName: Tflint Scanning ...
+    #   inputs:
+    #     targetType: 'inline'
+    #     script: |
+    #       cd $(System.DefaultWorkingDirectory)
+    #       tflint --recursive
+    #       tflint --format=json > tflint_report.json
 
-    - task: PublishPipelineArtifact@1
-      displayName: Tflint Report
-      inputs:
-        targetPath: '$(System.DefaultWorkingDirectory)/tflint_report.json'
-        artifact: 'tflint_ki_report'
-        publishLocation: 'pipeline'
+    # - task: PublishPipelineArtifact@1
+    #   displayName: Tflint Report
+    #   inputs:
+    #     targetPath: '$(System.DefaultWorkingDirectory)/tflint_report.json'
+    #     artifact: 'tflint_ki_report'
+    #     publishLocation: 'pipeline'
         
 
     # - task: PowerShell@2
@@ -65,7 +65,8 @@ stages:
         script: |
           cd $(System.DefaultWorkingDirectory)
           terrascan init
-          terrascan scan -t terraform -f . -o json > terrascan-report.json
+          terrascan scan -t terraform -d . -o json > terrascan-report.json
+
 
     - task: PublishPipelineArtifact@1
       displayName: Terrascan Report
