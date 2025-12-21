@@ -40,19 +40,38 @@ stages:
         publishLocation: 'pipeline'
         
 
+    # - task: PowerShell@2
+    #   continueOnError: true
+    #   displayName: Checkov Scanning ...
+    #   inputs:
+    #     targetType: 'inline'
+    #     script: |
+    #       cd $(System.DefaultWorkingDirectory)
+    #       checkov -d . -o json --output-file-path checkov-report.json
+
+    # - task: PublishPipelineArtifact@1
+    #   displayName: Checkov Report
+    #   inputs:
+    #     targetPath: '$(System.DefaultWorkingDirectory)/checkov-report.json'
+    #     artifact: 'checkov_ki_report'
+    #     publishLocation: 'pipeline'
+
+    
     - task: PowerShell@2
       continueOnError: true
-      displayName: Checkov Scanning ...
+      displayName: Terrascan Scanning ...
       inputs:
         targetType: 'inline'
         script: |
           cd $(System.DefaultWorkingDirectory)
-          checkov -d . -o json --output-file-path checkov-report.json
+          terrascan init
+          terrascan scan -t terraform -f . -o json > terrascan-report.json
 
     - task: PublishPipelineArtifact@1
+      displayName: Terrascan Report
       inputs:
-        targetPath: '$(System.DefaultWorkingDirectory)/checkov-report.json'
-        artifact: 'checkov_ki_report'
+        targetPath: '$(System.DefaultWorkingDirectory)/terrascan-report.json'
+        artifact: 'Terrascan Report'
         publishLocation: 'pipeline'
 
 
