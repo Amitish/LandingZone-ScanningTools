@@ -4,12 +4,12 @@ terraform {
       source  = "hashicorp/azurerm"
       version = "4.49.0"
     }
-    # backend "azurerm" {
+     backend "azurerm" {
     #     resource_group_name = 
     #     storage_account_name = 
     #     container_name = "
     #     key = "kjf.tfstate"
-    # }
+     }
   }
 }
 
