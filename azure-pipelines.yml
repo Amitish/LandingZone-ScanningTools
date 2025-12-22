@@ -27,91 +27,118 @@ stages:
     displayName: Terraform Flow
     steps:
 
-    - task: TerraformTask@5
-      displayName: Init...
-      inputs:
-        provider: 'azurerm'
-        command: 'init'
-        workingDirectory: '$(System.DefaultWorkingDirectory)/Environment/dev'
-        backendServiceArm: 'new-service'
-        backendAzureRmStorageAccountName: 'stglactab'
-        backendAzureRmContainerName: 'cntrlab'
-        backendAzureRmKey: 'test.tfstate'
 
-    - task: TerraformTask@5
-      inputs:
-        provider: 'azurerm'
-        command: 'plan'
-        workingDirectory: '$(System.DefaultWorkingDirectory)/Environment/dev'
-        environmentServiceNameAzureRM: 'new-service'
+#   1.> . . . . . . . . . . . . . " TFLINT " . . . . . . . . . . . . . . . . . 
 
-    # - task: PowerShell@2
-    #   displayName: Tflint Scanning ...
-    #   inputs:
-    #     targetType: 'inline'
-    #     script: |
-    #       cd $(System.DefaultWorkingDirectory)
-    #       tflint --recursive
-    #       tflint --format=json > tflint_report.json
 
-    # - task: PublishPipelineArtifact@1
-    #   displayName: Tflint Report
-    #   inputs:
-    #     targetPath: '$(System.DefaultWorkingDirectory)/tflint_report.json'
-    #     artifact: 'tflint_ki_report'
-    #     publishLocation: 'pipeline'
+#     - task: PowerShell@2
+#       displayName: Tflint Scanning ...
+#       inputs:
+#         targetType: 'inline'
+#         script: |
+#           cd $(System.DefaultWorkingDirectory)
+#           tflint --recursive
+#           tflint --format=json > tflint_report.json
+
+#     - task: PublishPipelineArtifact@1
+#       displayName: Tflint Report
+#       inputs:
+#         targetPath: '$(System.DefaultWorkingDirectory)/tflint_report.json'
+#         artifact: 'tflint_ki_report'
+#         publishLocation: 'pipeline'
+
+
+# #   2.> . . . . . . . . . . . . . " CHECKOV " . . . . . . . . . . . . . . . . . 
+
+
+#     - task: PowerShell@2
+#       continueOnError: true
+#       displayName: Checkov Scanning ...
+#       inputs:
+#         targetType: 'inline'
+#         script: |
+#           cd $(System.DefaultWorkingDirectory)
+#           checkov -d . -o json --output-file-path checkov-report.json
+
+#     - task: PublishPipelineArtifact@1
+#       displayName: Checkov Report
+#       inputs:
+#         targetPath: '$(System.DefaultWorkingDirectory)/checkov-report.json'
+#         artifact: 'checkov_ki_report'
+#         publishLocation: 'pipeline'
+
+
+#   #   3.> . . . . . . . . . . . . . " TERRASCAN" . . . . . . . . . . . . . . . . . 
+
+
+#     - task: PowerShell@2
+#       continueOnError: true
+#       displayName: Terrascan Scanning ...
+#       inputs:
+#         targetType: 'inline'
+#         script: |
+#           cd $(System.DefaultWorkingDirectory)
+#           terrascan init
+#           terrascan scan -i terraform -d . -o json > terrascan-report.json
+
+
+#     - task: PublishPipelineArtifact@1
+#       displayName: Terrascan Report
+#       inputs:
+#         targetPath: '$(System.DefaultWorkingDirectory)/terrascan-report.json'
+#         artifact: 'Terrascan_ki_report'
+#         publishLocation: 'pipeline'
+
+
+# #   4.> . . . . . . . . . . . . . " TFSEC " . . . . . . . . . . . . . . . . . 
+
+
+#     - task: tfsec@1
+#       displayName: Tfsec Scanning ...
+#       continueOnError: true
+#       inputs:
+#         version: 'v1.26.0'
+#         args: '--format sarif --out tfsec-report.sarif'
+#         dir: '$(System.DefaultWorkingDirectory)'
         
+#     - task: PublishPipelineArtifact@1
+#       displayName: Tfsec Report
+#       inputs:
+#         targetPath: '$(System.DefaultWorkingDirectory)/tfsec-report.sarif'
+#         artifact: 'tfsec_ki_report'
+#         publishLocation: 'pipeline'
 
-    # - task: PowerShell@2
-    #   continueOnError: true
-    #   displayName: Checkov Scanning ...
+
+#   5.> . . . . . . . . . . . . . " TRIVY " . . . . . . . . . . . . . . . . . 
+
+
+    - task: PowerShell@2
+      displayName: Trivy Scanning ...
+      inputs:
+        targetType: 'inline'
+        script: |
+          cd $(System.DefaultWorkingDirectory)
+          trivy config .
+          trivy config . --format json --output trivy-report.json
+
+
+    # - task: TerraformTask@5
+    #   displayName: Init...
     #   inputs:
-    #     targetType: 'inline'
-    #     script: |
-    #       cd $(System.DefaultWorkingDirectory)
-    #       checkov -d . -o json --output-file-path checkov-report.json
+    #     provider: 'azurerm'
+    #     command: 'init'
+    #     workingDirectory: '$(System.DefaultWorkingDirectory)/Environment/dev'
+    #     backendServiceArm: 'new-service'
+    #     backendAzureRmStorageAccountName: 'stglactab'
+    #     backendAzureRmContainerName: 'cntrlab'
+    #     backendAzureRmKey: 'test.tfstate'
 
-    # - task: PublishPipelineArtifact@1
-    #   displayName: Checkov Report
+    # - task: TerraformTask@5
     #   inputs:
-    #     targetPath: '$(System.DefaultWorkingDirectory)/checkov-report.json'
-    #     artifact: 'checkov_ki_report'
-    #     publishLocation: 'pipeline'
-
-    
-    # - task: PowerShell@2
-    #   continueOnError: true
-    #   displayName: Terrascan Scanning ...
-    #   inputs:
-    #     targetType: 'inline'
-    #     script: |
-    #       cd $(System.DefaultWorkingDirectory)
-    #       terrascan init
-    #       terrascan scan -i terraform -d . -o json > terrascan-report.json
-
-
-    # - task: PublishPipelineArtifact@1
-    #   displayName: Terrascan Report
-    #   inputs:
-    #     targetPath: '$(System.DefaultWorkingDirectory)/terrascan-report.json'
-    #     artifact: 'Terrascan_ki_report'
-    #     publishLocation: 'pipeline'
-
-
-    # - task: tfsec@1
-    #   displayName: Tfsec Scanning ...
-    #   continueOnError: true
-    #   inputs:
-    #     version: 'v1.26.0'
-    #     args: '--format sarif --out tfsec-report.sarif'
-    #     dir: '$(System.DefaultWorkingDirectory)'
-        
-    # - task: PublishPipelineArtifact@1
-    #   displayName: Tfsec Report
-    #   inputs:
-    #     targetPath: '$(System.DefaultWorkingDirectory)/tfsec-report.sarif'
-    #     artifact: 'tfsec_ki_report'
-    #     publishLocation: 'pipeline'
+    #     provider: 'azurerm'
+    #     command: 'plan'
+    #     workingDirectory: '$(System.DefaultWorkingDirectory)/Environment/dev'
+    #     environmentServiceNameAzureRM: 'new-service'
 
 
 ####################################################################################################
