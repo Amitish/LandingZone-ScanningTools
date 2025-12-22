@@ -33,6 +33,7 @@ stages:
         provider: 'azurerm'
         command: 'init'
         workingDirectory: '$(System.DefaultWorkingDirectory)/Environment/dev'
+        backendServiceArm: 'new-service'
         backendAzureRmStorageAccountName: 'stglactab'
         backendAzureRmContainerName: 'cntrlab'
         backendAzureRmKey: 'test.tfstate'
