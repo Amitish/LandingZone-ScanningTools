@@ -121,6 +121,13 @@ stages:
           trivy config .
           trivy config . --format json --output trivy-report.json
 
+    - task: PublishPipelineArtifact@1
+      displayName: Trivy Report
+      inputs:
+        targetPath: '$(System.DefaultWorkingDirectory)/trivy-report.json'
+        artifact: 'Trivy_ki_report'
+        publishLocation: 'pipeline'
+
 
     # - task: TerraformTask@5
     #   displayName: Init...
