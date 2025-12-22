@@ -3,6 +3,10 @@ trigger: none
 pool:
   name: mera-pool
 
+
+variables:
+- group: infracost_var
+
 # parameters:
 # - name: environment
 #   type: string
@@ -23,16 +27,31 @@ stages:
     displayName: Terraform Flow
     steps:
 
-
-
-    - task: PowerShell@2
-      displayName: Tflint Scanning ...
+    - task: TerraformTask@5
+      displayName: Init...
       inputs:
-        targetType: 'inline'
-        script: |
-          cd $(System.DefaultWorkingDirectory)
-          tflint --recursive
-          tflint --format=json > tflint_report.json
+        provider: 'azurerm'
+        command: 'init'
+        workingDirectory: '$(System.DefaultWorkingDirectory)/Environment/dev'
+        backendAzureRmStorageAccountName: 'stglactab'
+        backendAzureRmContainerName: 'cntrlab'
+        backendAzureRmKey: 'test.tfstate'
+
+    - task: TerraformTask@5
+      inputs:
+        provider: 'azurerm'
+        command: 'plan'
+        workingDirectory: '$(System.DefaultWorkingDirectory)/Environment/dev'
+        environmentServiceNameAzureRM: 'new-service'
+
+    # - task: PowerShell@2
+    #   displayName: Tflint Scanning ...
+    #   inputs:
+    #     targetType: 'inline'
+    #     script: |
+    #       cd $(System.DefaultWorkingDirectory)
+    #       tflint --recursive
+    #       tflint --format=json > tflint_report.json
 
     # - task: PublishPipelineArtifact@1
     #   displayName: Tflint Report
