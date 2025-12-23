@@ -90,13 +90,21 @@ stages:
 #   4.> . . . . . . . . . . . . . " TFSEC " . . . . . . . . . . . . . . . . . 
 
 
-    - task: tfsec@1
-      displayName: Tfsec Scanning ...
+    - task: PowerShell@2
+      displayName: 'Run tfsec scan (JSON)'
       continueOnError: true
       inputs:
-        version: 'v1.26.0'
-        dir: '$(System.DefaultWorkingDirectory)'
-        args: '--format json --out $(System.DefaultWorkingDirectory)/tfsec-report.json'
+        targetType: 'inline'
+        script: |
+          echo "Installing tfsec..."
+          choco install tfsec --version=1.26.0 -y
+
+          echo "Running tfsec scan..."
+          tfsec $(System.DefaultWorkingDirectory) --format json --out tfsec-report.json
+
+          echo "Files in working directory:"
+          dir
+
         
     - task: PublishPipelineArtifact@1
       displayName: Tfsec Report
