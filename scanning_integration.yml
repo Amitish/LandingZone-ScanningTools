@@ -95,8 +95,8 @@ stages:
       continueOnError: true
       inputs:
         version: 'v1.26.0'
-        args: '--format sarif --out tfsec-report.sarif'
         dir: '$(System.DefaultWorkingDirectory)'
+        args: '--format sarif --out $(System.DefaultWorkingDirectory)/tfsec-report.sarif'
         
     - task: PublishPipelineArtifact@1
       displayName: Tfsec Report
