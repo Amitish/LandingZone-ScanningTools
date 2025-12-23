@@ -7,17 +7,18 @@ pool:
 variables:
 - group: infracost_var
 
-# parameters:
-# - name: environment
-#   type: string
-#   default: dev
-#   values:
-#     - dev
-#     - prod
+- name: path
+  value: $(System.DefaultWorkingDirectory)\Environment\${{ parameters.environment }}
 
-# variables:
-# - name: path
-#   value: $(System.DefaultWorkingDirectory)\Environment\${{ parameters.environment }}
+
+parameters:
+- name: environment
+  type: string
+  default: dev
+  values:
+    - dev
+    - prod
+
 
 stages:
 - stage: Terraform
@@ -88,31 +89,31 @@ stages:
 
 #   4.> . . . . . . . . . . . . . " TFSEC " . . . . . . . . . . . . . . . . . 
 
-    - task: tfsec@1
-      displayName: Tfsec Scanning . . . 
-      continueOnError: true
-      inputs:
-        version: 'v1.26.0'
-        dir: '$(System.DefaultWorkingDirectory)'
+    # - task: tfsec@1
+    #   displayName: Tfsec Scanning . . . 
+    #   continueOnError: true
+    #   inputs:
+    #     version: 'v1.26.0'
+    #     dir: '$(System.DefaultWorkingDirectory)'
 
 
 #   5.> . . . . . . . . . . . . . " TRIVY " . . . . . . . . . . . . . . . . . 
 
-    - task: PowerShell@2
-      displayName: Trivy Scanning ...
-      inputs:
-        targetType: 'inline'
-        script: |
-          cd $(System.DefaultWorkingDirectory)
-          trivy config .
-          trivy config . --format json --output trivy-report.json
+    # - task: PowerShell@2
+    #   displayName: Trivy Scanning ...
+    #   inputs:
+    #     targetType: 'inline'
+    #     script: |
+    #       cd $(System.DefaultWorkingDirectory)
+    #       trivy config .
+    #       trivy config . --format json --output trivy-report.json
 
-    - task: PublishPipelineArtifact@1
-      displayName: Trivy Report
-      inputs:
-        targetPath: '$(System.DefaultWorkingDirectory)/trivy-report.json'
-        artifact: 'Trivy_ki_report'
-        publishLocation: 'pipeline'
+    # - task: PublishPipelineArtifact@1
+    #   displayName: Trivy Report
+    #   inputs:
+    #     targetPath: '$(System.DefaultWorkingDirectory)/trivy-report.json'
+    #     artifact: 'Trivy_ki_report'
+    #     publishLocation: 'pipeline'
 
 
 
@@ -134,6 +135,21 @@ stages:
     #     command: 'plan'
     #     workingDirectory: '$(System.DefaultWorkingDirectory)/Environment/dev'
     #     environmentServiceNameAzureRM: 'new-service'
+
+
+####################################################################################################
+
+    - task: TerraformTask@5
+      displayName: Init...
+      inputs:
+        provider: 'azurerm'
+        command: 'init'
+        workingDirectory: '$(path)'
+        backendServiceArm: 'amit-sc'
+        backendAzureRmStorageAccountName: 'stg121amit'
+        backendAzureRmContainerName: 'ctg121amit'
+        backendAzureRmKey: '${{ parameters.environment }}.tfstate'
+
 
 
 ####################################################################################################
@@ -184,12 +200,4 @@ stages:
     #     errorActionPreference: 'continue'        
     #     workingDirectory: '$(path)'
 
-    # - task: TerraformTask@5
-    #   displayName: Init...
-    #   inputs:
-    #     provider: 'azurerm'
-    #     command: 'init'
-    #     workingDirectory: '$(path)'
-    #     backendAzureRmStorageAccountName: 'stglactab'
-    #     backendAzureRmContainerName: 'cntrlab'
-    #     backendAzureRmKey: '${{ parameters.environment }}.tfstate'
+
