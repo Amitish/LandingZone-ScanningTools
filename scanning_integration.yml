@@ -96,7 +96,7 @@ stages:
       inputs:
         version: 'v1.26.0'
         dir: '$(System.DefaultWorkingDirectory)'
-        args: '--format json --out tfsec-report.json'
+        args: '--format json --out $(System.DefaultWorkingDirectory)/tfsec-report.json'
         
     - task: PublishPipelineArtifact@1
       displayName: Tfsec Report
