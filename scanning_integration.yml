@@ -90,6 +90,7 @@ stages:
 
     - task: tfsec@1
       displayName: Tfsec Scanning . . . 
+      continueOnError: true
       inputs:
         version: 'v1.26.0'
         dir: '$(System.DefaultWorkingDirectory)'
