@@ -4,18 +4,18 @@ terraform {
       source  = "hashicorp/azurerm"
       version = "4.49.0"
     }
-    # backend "azurerm" {
-    #     resource_group_name = 
-    #     storage_account_name = 
-    #     container_name = "
-    #     key = "kjf.tfstate"
-    # }
+  }
+  backend "azurerm" {
+    resource_group_name  = "amit-rg"
+    storage_account_name = "stg121amit"
+    container_name       = "ctg121amit"
+    key                  = "test.tfstate"
   }
 }
 
 provider "azurerm" {
   features {}
-  subscription_id = "30795018-f759-40ff-9c87-7d73f6cc4d87"
+  subscription_id = "86c2c7ab-0841-425a-9004-95c83c2075de"
 }
 
 module "resource_group" {

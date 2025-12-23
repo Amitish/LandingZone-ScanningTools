@@ -1,0 +1,1542 @@
+{
+  "SchemaVersion": 2,
+  "ReportID": "019b4697-2270-7a35-a8be-e36161ff56f7",
+  "CreatedAt": "2025-12-22T20:34:28.5286691+05:30",
+  "ArtifactID": "sha256:ba358b66caaf38b86565e8a00dd0f6472ad3abd8c83426e1c1111b566bfba633",
+  "ArtifactName": ".",
+  "ArtifactType": "repository",
+  "Metadata": {
+    "RepoURL": "https://github.com/Amitish/LandingZone-ScanningTools.git",
+    "Branch": "main",
+    "Commit": "aa3e8a65c402fde75c25ce868e5c5559ffd16b6d",
+    "CommitMsg": "Terratest",
+    "Author": "Amit Bisht \u003cdevopstudent08@gmail.com\u003e",
+    "Committer": "Amit Bisht \u003cdevopstudent08@gmail.com\u003e"
+  },
+  "Results": [
+    {
+      "Target": ".",
+      "Class": "config",
+      "Type": "terraformplan-snapshot",
+      "MisconfSummary": {
+        "Successes": 56,
+        "Failures": 0
+      }
+    },
+    {
+      "Target": "../../modules/compute/main.tf",
+      "Class": "config",
+      "Type": "terraformplan-snapshot",
+      "MisconfSummary": {
+        "Successes": 0,
+        "Failures": 2
+      },
+      "Misconfigurations": [
+        {
+          "Type": "Terraform Plan Snapshot Security Check",
+          "ID": "AVD-AZU-0039",
+          "AVDID": "AVD-AZU-0039",
+          "Title": "Password authentication should be disabled on Azure virtual machines",
+          "Description": "Access to virtual machines should be authenticated using SSH keys. Removing the option of password authentication enforces more secure methods while removing the risks inherent with passwords.\n",
+          "Message": "Linux virtual machine allows password authentication.",
+          "Namespace": "builtin.azure.compute.azure0039",
+          "Query": "data.builtin.azure.compute.azure0039.deny",
+          "Resolution": "Use ssh authentication for virtual machines",
+          "Severity": "HIGH",
+          "PrimaryURL": "https://avd.aquasec.com/misconfig/avd-azu-0039",
+          "References": [
+            "https://avd.aquasec.com/misconfig/avd-azu-0039"
+          ],
+          "Status": "FAIL",
+          "CauseMetadata": {
+            "Resource": "module.compute",
+            "Provider": "Azure",
+            "Service": "compute",
+            "StartLine": 39,
+            "EndLine": 39,
+            "Code": {
+              "Lines": [
+                {
+                  "Number": 29,
+                  "Content": "resource \"azurerm_linux_virtual_machine\" \"vm\" {",
+                  "IsCause": false,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "\u001b[38;5;33mresource\u001b[0m \u001b[38;5;37m\"azurerm_linux_virtual_machine\"\u001b[0m \u001b[38;5;37m\"vm\"\u001b[0m {",
+                  "FirstCause": false,
+                  "LastCause": false
+                },
+                {
+                  "Number": 30,
+                  "Content": "",
+                  "IsCause": false,
+                  "Annotation": "",
+                  "Truncated": true,
+                  "FirstCause": false,
+                  "LastCause": false
+                },
+                {
+                  "Number": 39,
+                  "Content": "  disable_password_authentication = false # add this line",
+                  "IsCause": true,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "  \u001b[38;5;245mdisable_password_authentication\u001b[0m = \u001b[38;5;166mfalse\u001b[0m\u001b[38;5;239m # add this line",
+                  "FirstCause": true,
+                  "LastCause": true
+                },
+                {
+                  "Number": 62,
+                  "Content": "",
+                  "IsCause": false,
+                  "Annotation": "",
+                  "Truncated": true,
+                  "FirstCause": false,
+                  "LastCause": false
+                },
+                {
+                  "Number": 63,
+                  "Content": "}",
+                  "IsCause": false,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "}",
+                  "FirstCause": false,
+                  "LastCause": false
+                }
+              ]
+            },
+            "Occurrences": [
+              {
+                "Resource": "azurerm_linux_virtual_machine.vm[\"vm1\"]",
+                "Filename": "..\\..\\modules\\compute/main.tf",
+                "Location": {
+                  "StartLine": 29,
+                  "EndLine": 63
+                }
+              },
+              {
+                "Resource": "module.compute",
+                "Filename": "main.tf",
+                "Location": {
+                  "StartLine": 44,
+                  "EndLine": 51
+                }
+              }
+            ]
+          }
+        },
+        {
+          "Type": "Terraform Plan Snapshot Security Check",
+          "ID": "AVD-AZU-0039",
+          "AVDID": "AVD-AZU-0039",
+          "Title": "Password authentication should be disabled on Azure virtual machines",
+          "Description": "Access to virtual machines should be authenticated using SSH keys. Removing the option of password authentication enforces more secure methods while removing the risks inherent with passwords.\n",
+          "Message": "Linux virtual machine allows password authentication.",
+          "Namespace": "builtin.azure.compute.azure0039",
+          "Query": "data.builtin.azure.compute.azure0039.deny",
+          "Resolution": "Use ssh authentication for virtual machines",
+          "Severity": "HIGH",
+          "PrimaryURL": "https://avd.aquasec.com/misconfig/avd-azu-0039",
+          "References": [
+            "https://avd.aquasec.com/misconfig/avd-azu-0039"
+          ],
+          "Status": "FAIL",
+          "CauseMetadata": {
+            "Resource": "module.compute",
+            "Provider": "Azure",
+            "Service": "compute",
+            "StartLine": 39,
+            "EndLine": 39,
+            "Code": {
+              "Lines": [
+                {
+                  "Number": 29,
+                  "Content": "resource \"azurerm_linux_virtual_machine\" \"vm\" {",
+                  "IsCause": false,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "\u001b[38;5;33mresource\u001b[0m \u001b[38;5;37m\"azurerm_linux_virtual_machine\"\u001b[0m \u001b[38;5;37m\"vm\"\u001b[0m {",
+                  "FirstCause": false,
+                  "LastCause": false
+                },
+                {
+                  "Number": 30,
+                  "Content": "",
+                  "IsCause": false,
+                  "Annotation": "",
+                  "Truncated": true,
+                  "FirstCause": false,
+                  "LastCause": false
+                },
+                {
+                  "Number": 39,
+                  "Content": "  disable_password_authentication = false # add this line",
+                  "IsCause": true,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "  \u001b[38;5;245mdisable_password_authentication\u001b[0m = \u001b[38;5;166mfalse\u001b[0m\u001b[38;5;239m # add this line",
+                  "FirstCause": true,
+                  "LastCause": true
+                },
+                {
+                  "Number": 62,
+                  "Content": "",
+                  "IsCause": false,
+                  "Annotation": "",
+                  "Truncated": true,
+                  "FirstCause": false,
+                  "LastCause": false
+                },
+                {
+                  "Number": 63,
+                  "Content": "}",
+                  "IsCause": false,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "}",
+                  "FirstCause": false,
+                  "LastCause": false
+                }
+              ]
+            },
+            "Occurrences": [
+              {
+                "Resource": "azurerm_linux_virtual_machine.vm[\"vm2\"]",
+                "Filename": "..\\..\\modules\\compute/main.tf",
+                "Location": {
+                  "StartLine": 29,
+                  "EndLine": 63
+                }
+              },
+              {
+                "Resource": "module.compute",
+                "Filename": "main.tf",
+                "Location": {
+                  "StartLine": 44,
+                  "EndLine": 51
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "Target": "../../modules/key_vault/main.tf",
+      "Class": "config",
+      "Type": "terraformplan-snapshot",
+      "MisconfSummary": {
+        "Successes": 0,
+        "Failures": 2
+      },
+      "Misconfigurations": [
+        {
+          "Type": "Terraform Plan Snapshot Security Check",
+          "ID": "AVD-AZU-0013",
+          "AVDID": "AVD-AZU-0013",
+          "Title": "Key vault should have the network acl block specified",
+          "Description": "Network ACLs allow you to reduce your exposure to risk by limiting what can access your key vault.\n\nThe default action of the Network ACL should be set to deny for when IPs are not matched. Azure services can be allowed to bypass.\n",
+          "Message": "Vault network ACL does not block access by default.",
+          "Namespace": "builtin.azure.keyvault.azure0013",
+          "Query": "data.builtin.azure.keyvault.azure0013.deny",
+          "Resolution": "Set a network ACL for the key vault",
+          "Severity": "CRITICAL",
+          "PrimaryURL": "https://avd.aquasec.com/misconfig/avd-azu-0013",
+          "References": [
+            "https://docs.microsoft.com/en-us/azure/key-vault/general/network-security",
+            "https://avd.aquasec.com/misconfig/avd-azu-0013"
+          ],
+          "Status": "FAIL",
+          "CauseMetadata": {
+            "Resource": "module.key_vaults",
+            "Provider": "Azure",
+            "Service": "keyvault",
+            "StartLine": 3,
+            "EndLine": 38,
+            "Code": {
+              "Lines": [
+                {
+                  "Number": 3,
+                  "Content": "resource \"azurerm_key_vault\" \"kv\" {",
+                  "IsCause": true,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "\u001b[38;5;33mresource\u001b[0m \u001b[38;5;37m\"azurerm_key_vault\"\u001b[0m \u001b[38;5;37m\"kv\"\u001b[0m {",
+                  "FirstCause": true,
+                  "LastCause": false
+                },
+                {
+                  "Number": 4,
+                  "Content": "  for_each                    = var.key_vault",
+                  "IsCause": true,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "  \u001b[38;5;245mfor_each\u001b[0m                    = \u001b[38;5;33mvar\u001b[0m.key_vault",
+                  "FirstCause": false,
+                  "LastCause": false
+                },
+                {
+                  "Number": 5,
+                  "Content": "  name                        = each.value.name",
+                  "IsCause": true,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "  \u001b[38;5;245mname\u001b[0m                        = \u001b[38;5;33meach\u001b[0m.value.name",
+                  "FirstCause": false,
+                  "LastCause": false
+                },
+                {
+                  "Number": 6,
+                  "Content": "  location                    = each.value.location",
+                  "IsCause": true,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "  \u001b[38;5;245mlocation\u001b[0m                    = \u001b[38;5;33meach\u001b[0m.value.location",
+                  "FirstCause": false,
+                  "LastCause": false
+                },
+                {
+                  "Number": 7,
+                  "Content": "  resource_group_name         = each.value.resource_group_name",
+                  "IsCause": true,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "  \u001b[38;5;245mresource_group_name\u001b[0m         = \u001b[38;5;33meach\u001b[0m.value.resource_group_name",
+                  "FirstCause": false,
+                  "LastCause": false
+                },
+                {
+                  "Number": 8,
+                  "Content": "  enabled_for_disk_encryption = true",
+                  "IsCause": true,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "  \u001b[38;5;245menabled_for_disk_encryption\u001b[0m = \u001b[38;5;166mtrue",
+                  "FirstCause": false,
+                  "LastCause": false
+                },
+                {
+                  "Number": 9,
+                  "Content": "  tenant_id                   = data.azurerm_client_config.current.tenant_id",
+                  "IsCause": true,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "\u001b[0m  \u001b[38;5;245mtenant_id\u001b[0m                   = \u001b[38;5;33mdata\u001b[0m.azurerm_client_config.current.tenant_id",
+                  "FirstCause": false,
+                  "LastCause": false
+                },
+                {
+                  "Number": 10,
+                  "Content": "  soft_delete_retention_days  = 7",
+                  "IsCause": true,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "  \u001b[38;5;245msoft_delete_retention_days\u001b[0m  = \u001b[38;5;37m7",
+                  "FirstCause": false,
+                  "LastCause": false
+                },
+                {
+                  "Number": 11,
+                  "Content": "  purge_protection_enabled    = false",
+                  "IsCause": true,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "\u001b[0m  \u001b[38;5;245mpurge_protection_enabled\u001b[0m    = \u001b[38;5;166mfalse",
+                  "FirstCause": false,
+                  "LastCause": true
+                },
+                {
+                  "Number": 12,
+                  "Content": "",
+                  "IsCause": false,
+                  "Annotation": "",
+                  "Truncated": true,
+                  "FirstCause": false,
+                  "LastCause": false
+                }
+              ]
+            },
+            "Occurrences": [
+              {
+                "Resource": "module.key_vaults",
+                "Filename": "main.tf",
+                "Location": {
+                  "StartLine": 26,
+                  "EndLine": 30
+                }
+              }
+            ]
+          }
+        },
+        {
+          "Type": "Terraform Plan Snapshot Security Check",
+          "ID": "AVD-AZU-0016",
+          "AVDID": "AVD-AZU-0016",
+          "Title": "Key vault should have purge protection enabled",
+          "Description": "Purge protection is an optional Key Vault behavior and is not enabled by default.\n\nPurge protection can only be enabled once soft-delete is enabled. It can be turned on via CLI or PowerShell.\n",
+          "Message": "Vault does not have purge protection enabled.",
+          "Namespace": "builtin.azure.keyvault.azure0016",
+          "Query": "data.builtin.azure.keyvault.azure0016.deny",
+          "Resolution": "Enable purge protection for key vaults",
+          "Severity": "MEDIUM",
+          "PrimaryURL": "https://avd.aquasec.com/misconfig/avd-azu-0016",
+          "References": [
+            "https://docs.microsoft.com/en-us/azure/key-vault/general/soft-delete-overview#purge-protection",
+            "https://avd.aquasec.com/misconfig/avd-azu-0016"
+          ],
+          "Status": "FAIL",
+          "CauseMetadata": {
+            "Resource": "module.key_vaults",
+            "Provider": "Azure",
+            "Service": "keyvault",
+            "StartLine": 11,
+            "EndLine": 11,
+            "Code": {
+              "Lines": [
+                {
+                  "Number": 3,
+                  "Content": "resource \"azurerm_key_vault\" \"kv\" {",
+                  "IsCause": false,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "\u001b[38;5;33mresource\u001b[0m \u001b[38;5;37m\"azurerm_key_vault\"\u001b[0m \u001b[38;5;37m\"kv\"\u001b[0m {",
+                  "FirstCause": false,
+                  "LastCause": false
+                },
+                {
+                  "Number": 4,
+                  "Content": "",
+                  "IsCause": false,
+                  "Annotation": "",
+                  "Truncated": true,
+                  "FirstCause": false,
+                  "LastCause": false
+                },
+                {
+                  "Number": 11,
+                  "Content": "  purge_protection_enabled    = false",
+                  "IsCause": true,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "\u001b[0m  \u001b[38;5;245mpurge_protection_enabled\u001b[0m    = \u001b[38;5;166mfalse",
+                  "FirstCause": true,
+                  "LastCause": true
+                },
+                {
+                  "Number": 37,
+                  "Content": "",
+                  "IsCause": false,
+                  "Annotation": "",
+                  "Truncated": true,
+                  "FirstCause": false,
+                  "LastCause": false
+                },
+                {
+                  "Number": 38,
+                  "Content": "}",
+                  "IsCause": false,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "}",
+                  "FirstCause": false,
+                  "LastCause": false
+                }
+              ]
+            },
+            "Occurrences": [
+              {
+                "Resource": "azurerm_key_vault.kv[\"kv1\"]",
+                "Filename": "..\\..\\modules\\key_vault/main.tf",
+                "Location": {
+                  "StartLine": 3,
+                  "EndLine": 38
+                }
+              },
+              {
+                "Resource": "module.key_vaults",
+                "Filename": "main.tf",
+                "Location": {
+                  "StartLine": 26,
+                  "EndLine": 30
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "Target": "../../modules/nsg/main.tf",
+      "Class": "config",
+      "Type": "terraformplan-snapshot",
+      "MisconfSummary": {
+        "Successes": 0,
+        "Failures": 4
+      },
+      "Misconfigurations": [
+        {
+          "Type": "Terraform Plan Snapshot Security Check",
+          "ID": "AVD-AZU-0047",
+          "AVDID": "AVD-AZU-0047",
+          "Title": "A security group rule should not allow unrestricted ingress from any IP address.",
+          "Description": "Opening up ports to allow connections from the public internet is generally to be avoided. You should restrict access to IP addresses or ranges that are explicitly required where possible.\n",
+          "Message": "Security group rule allows unrestricted ingress from any IP address.",
+          "Namespace": "builtin.azure.network.azure0047",
+          "Query": "data.builtin.azure.network.azure0047.deny",
+          "Resolution": "Set a more restrictive cidr range",
+          "Severity": "CRITICAL",
+          "PrimaryURL": "https://avd.aquasec.com/misconfig/avd-azu-0047",
+          "References": [
+            "https://docs.microsoft.com/en-us/azure/security/fundamentals/network-best-practices",
+            "https://avd.aquasec.com/misconfig/avd-azu-0047"
+          ],
+          "Status": "FAIL",
+          "CauseMetadata": {
+            "Resource": "module.network_security_group",
+            "Provider": "Azure",
+            "Service": "network",
+            "StartLine": 25,
+            "EndLine": 25,
+            "Code": {
+              "Lines": [
+                {
+                  "Number": 1,
+                  "Content": "resource \"azurerm_network_security_group\" \"nsg\" {",
+                  "IsCause": false,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "\u001b[38;5;33mresource\u001b[0m \u001b[38;5;37m\"azurerm_network_security_group\"\u001b[0m \u001b[38;5;37m\"nsg\"\u001b[0m {",
+                  "FirstCause": false,
+                  "LastCause": false
+                },
+                {
+                  "Number": 2,
+                  "Content": "",
+                  "IsCause": false,
+                  "Annotation": "",
+                  "Truncated": true,
+                  "FirstCause": false,
+                  "LastCause": false
+                },
+                {
+                  "Number": 25,
+                  "Content": "      source_address_prefix      = security_rule.value.source_address_prefix",
+                  "IsCause": true,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "      \u001b[38;5;245msource_address_prefix\u001b[0m      = security_rule.value.source_address_prefix",
+                  "FirstCause": true,
+                  "LastCause": true
+                },
+                {
+                  "Number": 28,
+                  "Content": "",
+                  "IsCause": false,
+                  "Annotation": "",
+                  "Truncated": true,
+                  "FirstCause": false,
+                  "LastCause": false
+                },
+                {
+                  "Number": 29,
+                  "Content": "}",
+                  "IsCause": false,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "}",
+                  "FirstCause": false,
+                  "LastCause": false
+                }
+              ]
+            },
+            "Occurrences": [
+              {
+                "Resource": "content",
+                "Filename": "..\\..\\modules\\nsg/main.tf",
+                "Location": {
+                  "StartLine": 16,
+                  "EndLine": 27
+                }
+              },
+              {
+                "Resource": "dynamic.security_rule",
+                "Filename": "..\\..\\modules\\nsg/main.tf",
+                "Location": {
+                  "StartLine": 14,
+                  "EndLine": 28
+                }
+              },
+              {
+                "Resource": "azurerm_network_security_group.nsg[\"nsg1\"]",
+                "Filename": "..\\..\\modules\\nsg/main.tf",
+                "Location": {
+                  "StartLine": 1,
+                  "EndLine": 29
+                }
+              },
+              {
+                "Resource": "module.network_security_group",
+                "Filename": "main.tf",
+                "Location": {
+                  "StartLine": 79,
+                  "EndLine": 83
+                }
+              }
+            ],
+            "RenderedCause": {
+              "Raw": "resource \"azurerm_network_security_group\" \"nsg\" {\n  security_rule {\n    source_address_prefix = \"*\"\n  }\n  security_rule {\n    source_address_prefix = \"*\"\n  }\n}",
+              "Highlighted": "\u001b[38;5;33mresource\u001b[0m \u001b[38;5;37m\"azurerm_network_security_group\"\u001b[0m \u001b[38;5;37m\"nsg\"\u001b[0m {\n  security_rule {\n    \u001b[38;5;245msource_address_prefix\u001b[0m = \u001b[38;5;37m\"*\"\n\u001b[0m  }\n  security_rule {\n    \u001b[38;5;245msource_address_prefix\u001b[0m = \u001b[38;5;37m\"*\"\n\u001b[0m  }\n}"
+            }
+          }
+        },
+        {
+          "Type": "Terraform Plan Snapshot Security Check",
+          "ID": "AVD-AZU-0047",
+          "AVDID": "AVD-AZU-0047",
+          "Title": "A security group rule should not allow unrestricted ingress from any IP address.",
+          "Description": "Opening up ports to allow connections from the public internet is generally to be avoided. You should restrict access to IP addresses or ranges that are explicitly required where possible.\n",
+          "Message": "Security group rule allows unrestricted ingress from any IP address.",
+          "Namespace": "builtin.azure.network.azure0047",
+          "Query": "data.builtin.azure.network.azure0047.deny",
+          "Resolution": "Set a more restrictive cidr range",
+          "Severity": "CRITICAL",
+          "PrimaryURL": "https://avd.aquasec.com/misconfig/avd-azu-0047",
+          "References": [
+            "https://docs.microsoft.com/en-us/azure/security/fundamentals/network-best-practices",
+            "https://avd.aquasec.com/misconfig/avd-azu-0047"
+          ],
+          "Status": "FAIL",
+          "CauseMetadata": {
+            "Resource": "module.network_security_group",
+            "Provider": "Azure",
+            "Service": "network",
+            "StartLine": 25,
+            "EndLine": 25,
+            "Code": {
+              "Lines": [
+                {
+                  "Number": 1,
+                  "Content": "resource \"azurerm_network_security_group\" \"nsg\" {",
+                  "IsCause": false,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "\u001b[38;5;33mresource\u001b[0m \u001b[38;5;37m\"azurerm_network_security_group\"\u001b[0m \u001b[38;5;37m\"nsg\"\u001b[0m {",
+                  "FirstCause": false,
+                  "LastCause": false
+                },
+                {
+                  "Number": 2,
+                  "Content": "",
+                  "IsCause": false,
+                  "Annotation": "",
+                  "Truncated": true,
+                  "FirstCause": false,
+                  "LastCause": false
+                },
+                {
+                  "Number": 25,
+                  "Content": "      source_address_prefix      = security_rule.value.source_address_prefix",
+                  "IsCause": true,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "      \u001b[38;5;245msource_address_prefix\u001b[0m      = security_rule.value.source_address_prefix",
+                  "FirstCause": true,
+                  "LastCause": true
+                },
+                {
+                  "Number": 28,
+                  "Content": "",
+                  "IsCause": false,
+                  "Annotation": "",
+                  "Truncated": true,
+                  "FirstCause": false,
+                  "LastCause": false
+                },
+                {
+                  "Number": 29,
+                  "Content": "}",
+                  "IsCause": false,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "}",
+                  "FirstCause": false,
+                  "LastCause": false
+                }
+              ]
+            },
+            "Occurrences": [
+              {
+                "Resource": "content",
+                "Filename": "..\\..\\modules\\nsg/main.tf",
+                "Location": {
+                  "StartLine": 16,
+                  "EndLine": 27
+                }
+              },
+              {
+                "Resource": "dynamic.security_rule",
+                "Filename": "..\\..\\modules\\nsg/main.tf",
+                "Location": {
+                  "StartLine": 14,
+                  "EndLine": 28
+                }
+              },
+              {
+                "Resource": "azurerm_network_security_group.nsg[\"nsg2\"]",
+                "Filename": "..\\..\\modules\\nsg/main.tf",
+                "Location": {
+                  "StartLine": 1,
+                  "EndLine": 29
+                }
+              },
+              {
+                "Resource": "module.network_security_group",
+                "Filename": "main.tf",
+                "Location": {
+                  "StartLine": 79,
+                  "EndLine": 83
+                }
+              }
+            ],
+            "RenderedCause": {
+              "Raw": "resource \"azurerm_network_security_group\" \"nsg\" {\n  security_rule {\n    source_address_prefix = \"*\"\n  }\n  security_rule {\n    source_address_prefix = \"*\"\n  }\n}",
+              "Highlighted": "\u001b[38;5;33mresource\u001b[0m \u001b[38;5;37m\"azurerm_network_security_group\"\u001b[0m \u001b[38;5;37m\"nsg\"\u001b[0m {\n  security_rule {\n    \u001b[38;5;245msource_address_prefix\u001b[0m = \u001b[38;5;37m\"*\"\n\u001b[0m  }\n  security_rule {\n    \u001b[38;5;245msource_address_prefix\u001b[0m = \u001b[38;5;37m\"*\"\n\u001b[0m  }\n}"
+            }
+          }
+        },
+        {
+          "Type": "Terraform Plan Snapshot Security Check",
+          "ID": "AVD-AZU-0050",
+          "AVDID": "AVD-AZU-0050",
+          "Title": "Security group should not allow unrestricted ingress to SSH port from any IP address.",
+          "Description": "SSH access can be configured on either the network security group or in the network security group rule.\nSSH access should not be permitted from the internet (*, 0.0.0.0, /0, internet, any)\n",
+          "Message": "Security group rule allows unrestricted ingress to SSH port from any IP address.",
+          "Namespace": "builtin.azure.network.azure0050",
+          "Query": "data.builtin.azure.network.azure0050.deny",
+          "Resolution": "Block port 22 access from the internet",
+          "Severity": "CRITICAL",
+          "PrimaryURL": "https://avd.aquasec.com/misconfig/avd-azu-0050",
+          "References": [
+            "https://avd.aquasec.com/misconfig/avd-azu-0050"
+          ],
+          "Status": "FAIL",
+          "CauseMetadata": {
+            "Resource": "module.network_security_group",
+            "Provider": "Azure",
+            "Service": "network",
+            "StartLine": 25,
+            "EndLine": 25,
+            "Code": {
+              "Lines": [
+                {
+                  "Number": 1,
+                  "Content": "resource \"azurerm_network_security_group\" \"nsg\" {",
+                  "IsCause": false,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "\u001b[38;5;33mresource\u001b[0m \u001b[38;5;37m\"azurerm_network_security_group\"\u001b[0m \u001b[38;5;37m\"nsg\"\u001b[0m {",
+                  "FirstCause": false,
+                  "LastCause": false
+                },
+                {
+                  "Number": 2,
+                  "Content": "",
+                  "IsCause": false,
+                  "Annotation": "",
+                  "Truncated": true,
+                  "FirstCause": false,
+                  "LastCause": false
+                },
+                {
+                  "Number": 25,
+                  "Content": "      source_address_prefix      = security_rule.value.source_address_prefix",
+                  "IsCause": true,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "      \u001b[38;5;245msource_address_prefix\u001b[0m      = security_rule.value.source_address_prefix",
+                  "FirstCause": true,
+                  "LastCause": true
+                },
+                {
+                  "Number": 28,
+                  "Content": "",
+                  "IsCause": false,
+                  "Annotation": "",
+                  "Truncated": true,
+                  "FirstCause": false,
+                  "LastCause": false
+                },
+                {
+                  "Number": 29,
+                  "Content": "}",
+                  "IsCause": false,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "}",
+                  "FirstCause": false,
+                  "LastCause": false
+                }
+              ]
+            },
+            "Occurrences": [
+              {
+                "Resource": "content",
+                "Filename": "..\\..\\modules\\nsg/main.tf",
+                "Location": {
+                  "StartLine": 16,
+                  "EndLine": 27
+                }
+              },
+              {
+                "Resource": "dynamic.security_rule",
+                "Filename": "..\\..\\modules\\nsg/main.tf",
+                "Location": {
+                  "StartLine": 14,
+                  "EndLine": 28
+                }
+              },
+              {
+                "Resource": "azurerm_network_security_group.nsg[\"nsg1\"]",
+                "Filename": "..\\..\\modules\\nsg/main.tf",
+                "Location": {
+                  "StartLine": 1,
+                  "EndLine": 29
+                }
+              },
+              {
+                "Resource": "module.network_security_group",
+                "Filename": "main.tf",
+                "Location": {
+                  "StartLine": 79,
+                  "EndLine": 83
+                }
+              }
+            ],
+            "RenderedCause": {
+              "Raw": "resource \"azurerm_network_security_group\" \"nsg\" {\n  security_rule {\n    source_address_prefix = \"*\"\n  }\n  security_rule {\n    source_address_prefix = \"*\"\n  }\n}",
+              "Highlighted": "\u001b[38;5;33mresource\u001b[0m \u001b[38;5;37m\"azurerm_network_security_group\"\u001b[0m \u001b[38;5;37m\"nsg\"\u001b[0m {\n  security_rule {\n    \u001b[38;5;245msource_address_prefix\u001b[0m = \u001b[38;5;37m\"*\"\n\u001b[0m  }\n  security_rule {\n    \u001b[38;5;245msource_address_prefix\u001b[0m = \u001b[38;5;37m\"*\"\n\u001b[0m  }\n}"
+            }
+          }
+        },
+        {
+          "Type": "Terraform Plan Snapshot Security Check",
+          "ID": "AVD-AZU-0050",
+          "AVDID": "AVD-AZU-0050",
+          "Title": "Security group should not allow unrestricted ingress to SSH port from any IP address.",
+          "Description": "SSH access can be configured on either the network security group or in the network security group rule.\nSSH access should not be permitted from the internet (*, 0.0.0.0, /0, internet, any)\n",
+          "Message": "Security group rule allows unrestricted ingress to SSH port from any IP address.",
+          "Namespace": "builtin.azure.network.azure0050",
+          "Query": "data.builtin.azure.network.azure0050.deny",
+          "Resolution": "Block port 22 access from the internet",
+          "Severity": "CRITICAL",
+          "PrimaryURL": "https://avd.aquasec.com/misconfig/avd-azu-0050",
+          "References": [
+            "https://avd.aquasec.com/misconfig/avd-azu-0050"
+          ],
+          "Status": "FAIL",
+          "CauseMetadata": {
+            "Resource": "module.network_security_group",
+            "Provider": "Azure",
+            "Service": "network",
+            "StartLine": 25,
+            "EndLine": 25,
+            "Code": {
+              "Lines": [
+                {
+                  "Number": 1,
+                  "Content": "resource \"azurerm_network_security_group\" \"nsg\" {",
+                  "IsCause": false,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "\u001b[38;5;33mresource\u001b[0m \u001b[38;5;37m\"azurerm_network_security_group\"\u001b[0m \u001b[38;5;37m\"nsg\"\u001b[0m {",
+                  "FirstCause": false,
+                  "LastCause": false
+                },
+                {
+                  "Number": 2,
+                  "Content": "",
+                  "IsCause": false,
+                  "Annotation": "",
+                  "Truncated": true,
+                  "FirstCause": false,
+                  "LastCause": false
+                },
+                {
+                  "Number": 25,
+                  "Content": "      source_address_prefix      = security_rule.value.source_address_prefix",
+                  "IsCause": true,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "      \u001b[38;5;245msource_address_prefix\u001b[0m      = security_rule.value.source_address_prefix",
+                  "FirstCause": true,
+                  "LastCause": true
+                },
+                {
+                  "Number": 28,
+                  "Content": "",
+                  "IsCause": false,
+                  "Annotation": "",
+                  "Truncated": true,
+                  "FirstCause": false,
+                  "LastCause": false
+                },
+                {
+                  "Number": 29,
+                  "Content": "}",
+                  "IsCause": false,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "}",
+                  "FirstCause": false,
+                  "LastCause": false
+                }
+              ]
+            },
+            "Occurrences": [
+              {
+                "Resource": "content",
+                "Filename": "..\\..\\modules\\nsg/main.tf",
+                "Location": {
+                  "StartLine": 16,
+                  "EndLine": 27
+                }
+              },
+              {
+                "Resource": "dynamic.security_rule",
+                "Filename": "..\\..\\modules\\nsg/main.tf",
+                "Location": {
+                  "StartLine": 14,
+                  "EndLine": 28
+                }
+              },
+              {
+                "Resource": "azurerm_network_security_group.nsg[\"nsg2\"]",
+                "Filename": "..\\..\\modules\\nsg/main.tf",
+                "Location": {
+                  "StartLine": 1,
+                  "EndLine": 29
+                }
+              },
+              {
+                "Resource": "module.network_security_group",
+                "Filename": "main.tf",
+                "Location": {
+                  "StartLine": 79,
+                  "EndLine": 83
+                }
+              }
+            ],
+            "RenderedCause": {
+              "Raw": "resource \"azurerm_network_security_group\" \"nsg\" {\n  security_rule {\n    source_address_prefix = \"*\"\n  }\n  security_rule {\n    source_address_prefix = \"*\"\n  }\n}",
+              "Highlighted": "\u001b[38;5;33mresource\u001b[0m \u001b[38;5;37m\"azurerm_network_security_group\"\u001b[0m \u001b[38;5;37m\"nsg\"\u001b[0m {\n  security_rule {\n    \u001b[38;5;245msource_address_prefix\u001b[0m = \u001b[38;5;37m\"*\"\n\u001b[0m  }\n  security_rule {\n    \u001b[38;5;245msource_address_prefix\u001b[0m = \u001b[38;5;37m\"*\"\n\u001b[0m  }\n}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "Target": "../../modules/sql_server/main.tf",
+      "Class": "config",
+      "Type": "terraformplan-snapshot",
+      "MisconfSummary": {
+        "Successes": 0,
+        "Failures": 2
+      },
+      "Misconfigurations": [
+        {
+          "Type": "Terraform Plan Snapshot Security Check",
+          "ID": "AVD-AZU-0022",
+          "AVDID": "AVD-AZU-0022",
+          "Title": "Ensure databases are not publicly accessible",
+          "Description": "Database resources should not publicly available. You should limit all access to the minimum that is required for your application to function.\n",
+          "Message": "Database server has public network access enabled.",
+          "Namespace": "builtin.azure.database.azure0022",
+          "Query": "data.builtin.azure.database.azure0022.deny",
+          "Resolution": "Disable public access to database when not required",
+          "Severity": "MEDIUM",
+          "PrimaryURL": "https://avd.aquasec.com/misconfig/avd-azu-0022",
+          "References": [
+            "https://avd.aquasec.com/misconfig/avd-azu-0022"
+          ],
+          "Status": "FAIL",
+          "CauseMetadata": {
+            "Resource": "module.sql_server",
+            "Provider": "Azure",
+            "Service": "database",
+            "StartLine": 1,
+            "EndLine": 10,
+            "Code": {
+              "Lines": [
+                {
+                  "Number": 1,
+                  "Content": "resource \"azurerm_mssql_server\" \"sql_server\" {",
+                  "IsCause": true,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "\u001b[38;5;33mresource\u001b[0m \u001b[38;5;37m\"azurerm_mssql_server\"\u001b[0m \u001b[38;5;37m\"sql_server\"\u001b[0m {",
+                  "FirstCause": true,
+                  "LastCause": false
+                },
+                {
+                  "Number": 2,
+                  "Content": "  name                         = var.sql_server_name",
+                  "IsCause": true,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "  \u001b[38;5;245mname\u001b[0m                         = \u001b[38;5;33mvar\u001b[0m.sql_server_name",
+                  "FirstCause": false,
+                  "LastCause": false
+                },
+                {
+                  "Number": 3,
+                  "Content": "  resource_group_name          = var.rg_name",
+                  "IsCause": true,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "  \u001b[38;5;245mresource_group_name\u001b[0m          = \u001b[38;5;33mvar\u001b[0m.rg_name",
+                  "FirstCause": false,
+                  "LastCause": false
+                },
+                {
+                  "Number": 4,
+                  "Content": "  location                     = var.location",
+                  "IsCause": true,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "  \u001b[38;5;245mlocation\u001b[0m                     = \u001b[38;5;33mvar\u001b[0m.location",
+                  "FirstCause": false,
+                  "LastCause": false
+                },
+                {
+                  "Number": 5,
+                  "Content": "  version                      = \"12.0\"",
+                  "IsCause": true,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "  \u001b[38;5;245mversion\u001b[0m                      = \u001b[38;5;37m\"12.0\"",
+                  "FirstCause": false,
+                  "LastCause": false
+                },
+                {
+                  "Number": 6,
+                  "Content": "  administrator_login          = var.admin_username",
+                  "IsCause": true,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "\u001b[0m  \u001b[38;5;245madministrator_login\u001b[0m          = \u001b[38;5;33mvar\u001b[0m.admin_username",
+                  "FirstCause": false,
+                  "LastCause": false
+                },
+                {
+                  "Number": 7,
+                  "Content": "  administrator_login_password = var.admin_password",
+                  "IsCause": true,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "  \u001b[38;5;245madministrator_login_password\u001b[0m = \u001b[38;5;33mvar\u001b[0m.admin_password",
+                  "FirstCause": false,
+                  "LastCause": false
+                },
+                {
+                  "Number": 8,
+                  "Content": "  minimum_tls_version          = \"1.2\"",
+                  "IsCause": true,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "  \u001b[38;5;245mminimum_tls_version\u001b[0m          = \u001b[38;5;37m\"1.2\"",
+                  "FirstCause": false,
+                  "LastCause": false
+                },
+                {
+                  "Number": 9,
+                  "Content": "  tags = var.tags",
+                  "IsCause": true,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "\u001b[0m  \u001b[38;5;245mtags\u001b[0m = \u001b[38;5;33mvar\u001b[0m.tags",
+                  "FirstCause": false,
+                  "LastCause": false
+                },
+                {
+                  "Number": 10,
+                  "Content": "}",
+                  "IsCause": true,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "}",
+                  "FirstCause": false,
+                  "LastCause": true
+                }
+              ]
+            },
+            "Occurrences": [
+              {
+                "Resource": "module.sql_server",
+                "Filename": "main.tf",
+                "Location": {
+                  "StartLine": 53,
+                  "EndLine": 65
+                }
+              }
+            ]
+          }
+        },
+        {
+          "Type": "Terraform Plan Snapshot Security Check",
+          "ID": "AVD-AZU-0027",
+          "AVDID": "AVD-AZU-0027",
+          "Title": "Auditing should be enabled on Azure SQL Databases",
+          "Description": "Auditing helps you maintain regulatory compliance, understand database activity, and gain insight into discrepancies and anomalies that could indicate business concerns or suspected security violations.\n",
+          "Message": "Server does not have an extended audit policy configured.",
+          "Namespace": "builtin.azure.database.azure0027",
+          "Query": "data.builtin.azure.database.azure0027.deny",
+          "Resolution": "Enable auditing on Azure SQL databases",
+          "Severity": "MEDIUM",
+          "PrimaryURL": "https://avd.aquasec.com/misconfig/avd-azu-0027",
+          "References": [
+            "https://docs.microsoft.com/en-us/azure/azure-sql/database/auditing-overview",
+            "https://avd.aquasec.com/misconfig/avd-azu-0027"
+          ],
+          "Status": "FAIL",
+          "CauseMetadata": {
+            "Resource": "module.sql_server",
+            "Provider": "Azure",
+            "Service": "database",
+            "StartLine": 1,
+            "EndLine": 10,
+            "Code": {
+              "Lines": [
+                {
+                  "Number": 1,
+                  "Content": "resource \"azurerm_mssql_server\" \"sql_server\" {",
+                  "IsCause": true,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "\u001b[38;5;33mresource\u001b[0m \u001b[38;5;37m\"azurerm_mssql_server\"\u001b[0m \u001b[38;5;37m\"sql_server\"\u001b[0m {",
+                  "FirstCause": true,
+                  "LastCause": false
+                },
+                {
+                  "Number": 2,
+                  "Content": "  name                         = var.sql_server_name",
+                  "IsCause": true,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "  \u001b[38;5;245mname\u001b[0m                         = \u001b[38;5;33mvar\u001b[0m.sql_server_name",
+                  "FirstCause": false,
+                  "LastCause": false
+                },
+                {
+                  "Number": 3,
+                  "Content": "  resource_group_name          = var.rg_name",
+                  "IsCause": true,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "  \u001b[38;5;245mresource_group_name\u001b[0m          = \u001b[38;5;33mvar\u001b[0m.rg_name",
+                  "FirstCause": false,
+                  "LastCause": false
+                },
+                {
+                  "Number": 4,
+                  "Content": "  location                     = var.location",
+                  "IsCause": true,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "  \u001b[38;5;245mlocation\u001b[0m                     = \u001b[38;5;33mvar\u001b[0m.location",
+                  "FirstCause": false,
+                  "LastCause": false
+                },
+                {
+                  "Number": 5,
+                  "Content": "  version                      = \"12.0\"",
+                  "IsCause": true,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "  \u001b[38;5;245mversion\u001b[0m                      = \u001b[38;5;37m\"12.0\"",
+                  "FirstCause": false,
+                  "LastCause": false
+                },
+                {
+                  "Number": 6,
+                  "Content": "  administrator_login          = var.admin_username",
+                  "IsCause": true,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "\u001b[0m  \u001b[38;5;245madministrator_login\u001b[0m          = \u001b[38;5;33mvar\u001b[0m.admin_username",
+                  "FirstCause": false,
+                  "LastCause": false
+                },
+                {
+                  "Number": 7,
+                  "Content": "  administrator_login_password = var.admin_password",
+                  "IsCause": true,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "  \u001b[38;5;245madministrator_login_password\u001b[0m = \u001b[38;5;33mvar\u001b[0m.admin_password",
+                  "FirstCause": false,
+                  "LastCause": false
+                },
+                {
+                  "Number": 8,
+                  "Content": "  minimum_tls_version          = \"1.2\"",
+                  "IsCause": true,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "  \u001b[38;5;245mminimum_tls_version\u001b[0m          = \u001b[38;5;37m\"1.2\"",
+                  "FirstCause": false,
+                  "LastCause": false
+                },
+                {
+                  "Number": 9,
+                  "Content": "  tags = var.tags",
+                  "IsCause": true,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "\u001b[0m  \u001b[38;5;245mtags\u001b[0m = \u001b[38;5;33mvar\u001b[0m.tags",
+                  "FirstCause": false,
+                  "LastCause": false
+                },
+                {
+                  "Number": 10,
+                  "Content": "}",
+                  "IsCause": true,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "}",
+                  "FirstCause": false,
+                  "LastCause": true
+                }
+              ]
+            },
+            "Occurrences": [
+              {
+                "Resource": "module.sql_server",
+                "Filename": "main.tf",
+                "Location": {
+                  "StartLine": 53,
+                  "EndLine": 65
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "Target": "Environment/dev",
+      "Class": "config",
+      "Type": "terraform",
+      "MisconfSummary": {
+        "Successes": 48,
+        "Failures": 0
+      }
+    },
+    {
+      "Target": "modules/bastion",
+      "Class": "config",
+      "Type": "terraform",
+      "MisconfSummary": {
+        "Successes": 38,
+        "Failures": 0
+      }
+    },
+    {
+      "Target": "modules/sql_server/main.tf",
+      "Class": "config",
+      "Type": "terraform",
+      "MisconfSummary": {
+        "Successes": 0,
+        "Failures": 2
+      },
+      "Misconfigurations": [
+        {
+          "Type": "Terraform Security Check",
+          "ID": "AVD-AZU-0022",
+          "AVDID": "AVD-AZU-0022",
+          "Title": "Ensure databases are not publicly accessible",
+          "Description": "Database resources should not publicly available. You should limit all access to the minimum that is required for your application to function.\n",
+          "Message": "Database server has public network access enabled.",
+          "Namespace": "builtin.azure.database.azure0022",
+          "Query": "data.builtin.azure.database.azure0022.deny",
+          "Resolution": "Disable public access to database when not required",
+          "Severity": "MEDIUM",
+          "PrimaryURL": "https://avd.aquasec.com/misconfig/avd-azu-0022",
+          "References": [
+            "https://avd.aquasec.com/misconfig/avd-azu-0022"
+          ],
+          "Status": "FAIL",
+          "CauseMetadata": {
+            "Resource": "module.sql_server",
+            "Provider": "Azure",
+            "Service": "database",
+            "StartLine": 1,
+            "EndLine": 10,
+            "Code": {
+              "Lines": [
+                {
+                  "Number": 1,
+                  "Content": "resource \"azurerm_mssql_server\" \"sql_server\" {",
+                  "IsCause": true,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "\u001b[38;5;33mresource\u001b[0m \u001b[38;5;37m\"azurerm_mssql_server\"\u001b[0m \u001b[38;5;37m\"sql_server\"\u001b[0m {",
+                  "FirstCause": true,
+                  "LastCause": false
+                },
+                {
+                  "Number": 2,
+                  "Content": "  name                         = var.sql_server_name",
+                  "IsCause": true,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "  \u001b[38;5;245mname\u001b[0m                         = \u001b[38;5;33mvar\u001b[0m.sql_server_name",
+                  "FirstCause": false,
+                  "LastCause": false
+                },
+                {
+                  "Number": 3,
+                  "Content": "  resource_group_name          = var.rg_name",
+                  "IsCause": true,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "  \u001b[38;5;245mresource_group_name\u001b[0m          = \u001b[38;5;33mvar\u001b[0m.rg_name",
+                  "FirstCause": false,
+                  "LastCause": false
+                },
+                {
+                  "Number": 4,
+                  "Content": "  location                     = var.location",
+                  "IsCause": true,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "  \u001b[38;5;245mlocation\u001b[0m                     = \u001b[38;5;33mvar\u001b[0m.location",
+                  "FirstCause": false,
+                  "LastCause": false
+                },
+                {
+                  "Number": 5,
+                  "Content": "  version                      = \"12.0\"",
+                  "IsCause": true,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "  \u001b[38;5;245mversion\u001b[0m                      = \u001b[38;5;37m\"12.0\"",
+                  "FirstCause": false,
+                  "LastCause": false
+                },
+                {
+                  "Number": 6,
+                  "Content": "  administrator_login          = var.admin_username",
+                  "IsCause": true,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "\u001b[0m  \u001b[38;5;245madministrator_login\u001b[0m          = \u001b[38;5;33mvar\u001b[0m.admin_username",
+                  "FirstCause": false,
+                  "LastCause": false
+                },
+                {
+                  "Number": 7,
+                  "Content": "  administrator_login_password = var.admin_password",
+                  "IsCause": true,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "  \u001b[38;5;245madministrator_login_password\u001b[0m = \u001b[38;5;33mvar\u001b[0m.admin_password",
+                  "FirstCause": false,
+                  "LastCause": false
+                },
+                {
+                  "Number": 8,
+                  "Content": "  minimum_tls_version          = \"1.2\"",
+                  "IsCause": true,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "  \u001b[38;5;245mminimum_tls_version\u001b[0m          = \u001b[38;5;37m\"1.2\"",
+                  "FirstCause": false,
+                  "LastCause": false
+                },
+                {
+                  "Number": 9,
+                  "Content": "  tags = var.tags",
+                  "IsCause": true,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "\u001b[0m  \u001b[38;5;245mtags\u001b[0m = \u001b[38;5;33mvar\u001b[0m.tags",
+                  "FirstCause": false,
+                  "LastCause": false
+                },
+                {
+                  "Number": 10,
+                  "Content": "}",
+                  "IsCause": true,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "}",
+                  "FirstCause": false,
+                  "LastCause": true
+                }
+              ]
+            },
+            "Occurrences": [
+              {
+                "Resource": "module.sql_server",
+                "Filename": "Environment/dev/main.tf",
+                "Location": {
+                  "StartLine": 53,
+                  "EndLine": 65
+                }
+              }
+            ]
+          }
+        },
+        {
+          "Type": "Terraform Security Check",
+          "ID": "AVD-AZU-0027",
+          "AVDID": "AVD-AZU-0027",
+          "Title": "Auditing should be enabled on Azure SQL Databases",
+          "Description": "Auditing helps you maintain regulatory compliance, understand database activity, and gain insight into discrepancies and anomalies that could indicate business concerns or suspected security violations.\n",
+          "Message": "Server does not have an extended audit policy configured.",
+          "Namespace": "builtin.azure.database.azure0027",
+          "Query": "data.builtin.azure.database.azure0027.deny",
+          "Resolution": "Enable auditing on Azure SQL databases",
+          "Severity": "MEDIUM",
+          "PrimaryURL": "https://avd.aquasec.com/misconfig/avd-azu-0027",
+          "References": [
+            "https://docs.microsoft.com/en-us/azure/azure-sql/database/auditing-overview",
+            "https://avd.aquasec.com/misconfig/avd-azu-0027"
+          ],
+          "Status": "FAIL",
+          "CauseMetadata": {
+            "Resource": "module.sql_server",
+            "Provider": "Azure",
+            "Service": "database",
+            "StartLine": 1,
+            "EndLine": 10,
+            "Code": {
+              "Lines": [
+                {
+                  "Number": 1,
+                  "Content": "resource \"azurerm_mssql_server\" \"sql_server\" {",
+                  "IsCause": true,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "\u001b[38;5;33mresource\u001b[0m \u001b[38;5;37m\"azurerm_mssql_server\"\u001b[0m \u001b[38;5;37m\"sql_server\"\u001b[0m {",
+                  "FirstCause": true,
+                  "LastCause": false
+                },
+                {
+                  "Number": 2,
+                  "Content": "  name                         = var.sql_server_name",
+                  "IsCause": true,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "  \u001b[38;5;245mname\u001b[0m                         = \u001b[38;5;33mvar\u001b[0m.sql_server_name",
+                  "FirstCause": false,
+                  "LastCause": false
+                },
+                {
+                  "Number": 3,
+                  "Content": "  resource_group_name          = var.rg_name",
+                  "IsCause": true,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "  \u001b[38;5;245mresource_group_name\u001b[0m          = \u001b[38;5;33mvar\u001b[0m.rg_name",
+                  "FirstCause": false,
+                  "LastCause": false
+                },
+                {
+                  "Number": 4,
+                  "Content": "  location                     = var.location",
+                  "IsCause": true,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "  \u001b[38;5;245mlocation\u001b[0m                     = \u001b[38;5;33mvar\u001b[0m.location",
+                  "FirstCause": false,
+                  "LastCause": false
+                },
+                {
+                  "Number": 5,
+                  "Content": "  version                      = \"12.0\"",
+                  "IsCause": true,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "  \u001b[38;5;245mversion\u001b[0m                      = \u001b[38;5;37m\"12.0\"",
+                  "FirstCause": false,
+                  "LastCause": false
+                },
+                {
+                  "Number": 6,
+                  "Content": "  administrator_login          = var.admin_username",
+                  "IsCause": true,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "\u001b[0m  \u001b[38;5;245madministrator_login\u001b[0m          = \u001b[38;5;33mvar\u001b[0m.admin_username",
+                  "FirstCause": false,
+                  "LastCause": false
+                },
+                {
+                  "Number": 7,
+                  "Content": "  administrator_login_password = var.admin_password",
+                  "IsCause": true,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "  \u001b[38;5;245madministrator_login_password\u001b[0m = \u001b[38;5;33mvar\u001b[0m.admin_password",
+                  "FirstCause": false,
+                  "LastCause": false
+                },
+                {
+                  "Number": 8,
+                  "Content": "  minimum_tls_version          = \"1.2\"",
+                  "IsCause": true,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "  \u001b[38;5;245mminimum_tls_version\u001b[0m          = \u001b[38;5;37m\"1.2\"",
+                  "FirstCause": false,
+                  "LastCause": false
+                },
+                {
+                  "Number": 9,
+                  "Content": "  tags = var.tags",
+                  "IsCause": true,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "\u001b[0m  \u001b[38;5;245mtags\u001b[0m = \u001b[38;5;33mvar\u001b[0m.tags",
+                  "FirstCause": false,
+                  "LastCause": false
+                },
+                {
+                  "Number": 10,
+                  "Content": "}",
+                  "IsCause": true,
+                  "Annotation": "",
+                  "Truncated": false,
+                  "Highlighted": "}",
+                  "FirstCause": false,
+                  "LastCause": true
+                }
+              ]
+            },
+            "Occurrences": [
+              {
+                "Resource": "module.sql_server",
+                "Filename": "Environment/dev/main.tf",
+                "Location": {
+                  "StartLine": 53,
+                  "EndLine": 65
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "Target": "modules/storage",
+      "Class": "config",
+      "Type": "terraform",
+      "MisconfSummary": {
+        "Successes": 38,
+        "Failures": 0
+      }
+    }
+  ]
+}
