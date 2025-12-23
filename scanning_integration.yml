@@ -116,6 +116,10 @@ stages:
     #     publishLocation: 'pipeline'
 
 
+    - task: TerraformInstaller@1      # No need to install since terraform is already on local pc
+      inputs:
+        terraformVersion: 'latest'
+
     - task: TerraformTask@5
       displayName: Terraform Init
       inputs:
