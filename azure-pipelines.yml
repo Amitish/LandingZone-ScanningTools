@@ -137,9 +137,9 @@ stages:
     #     provider: 'azurerm'
     #     command: 'init'
     #     workingDirectory: '$(System.DefaultWorkingDirectory)/Environment/dev'
-    #     backendServiceArm: 'new-service'
-    #     backendAzureRmStorageAccountName: 'stglactab'
-    #     backendAzureRmContainerName: 'cntrlab'
+    #     backendServiceArm: 'amit-sc'
+    #     backendAzureRmStorageAccountName: 'stg121amit'
+    #     backendAzureRmContainerName: 'ctg121amit'
     #     backendAzureRmKey: 'test.tfstate'
 
     # - task: TerraformTask@5
