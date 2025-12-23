@@ -28,63 +28,63 @@ stages:
     steps:
 
 
-#   1.> . . . . . . . . . . . . . " TFLINT " . . . . . . . . . . . . . . . . . 
+# #   1.> . . . . . . . . . . . . . " TFLINT " . . . . . . . . . . . . . . . . . 
 
-    - task: PowerShell@2
-      displayName: Tflint Scanning ...
-      inputs:
-        targetType: 'inline'
-        script: |
-          cd $(System.DefaultWorkingDirectory)
-          tflint --recursive
-          tflint --format=json > tflint_report.json
+#     - task: PowerShell@2
+#       displayName: Tflint Scanning ...
+#       inputs:
+#         targetType: 'inline'
+#         script: |
+#           cd $(System.DefaultWorkingDirectory)
+#           tflint --recursive
+#           tflint --format=json > tflint_report.json
 
-    - task: PublishPipelineArtifact@1
-      displayName: Tflint Report
-      inputs:
-        targetPath: '$(System.DefaultWorkingDirectory)/tflint_report.json'
-        artifact: 'tflint_ki_report'
-        publishLocation: 'pipeline'
-
-
-#   2.> . . . . . . . . . . . . . " CHECKOV " . . . . . . . . . . . . . . . . . 
-
-    - task: PowerShell@2
-      continueOnError: true
-      displayName: Checkov Scanning ...
-      inputs:
-        targetType: 'inline'
-        script: |
-          cd $(System.DefaultWorkingDirectory)
-          checkov -d . -o json --output-file-path checkov-report.json
-
-    - task: PublishPipelineArtifact@1
-      displayName: Checkov Report
-      inputs:
-        targetPath: '$(System.DefaultWorkingDirectory)/checkov-report.json'
-        artifact: 'checkov_ki_report'
-        publishLocation: 'pipeline'
+#     - task: PublishPipelineArtifact@1
+#       displayName: Tflint Report
+#       inputs:
+#         targetPath: '$(System.DefaultWorkingDirectory)/tflint_report.json'
+#         artifact: 'tflint_ki_report'
+#         publishLocation: 'pipeline'
 
 
-#   3.> . . . . . . . . . . . . . " TERRASCAN" . . . . . . . . . . . . . . . . . 
+# #   2.> . . . . . . . . . . . . . " CHECKOV " . . . . . . . . . . . . . . . . . 
 
-    - task: PowerShell@2
-      continueOnError: true
-      displayName: Terrascan Scanning ...
-      inputs:
-        targetType: 'inline'
-        script: |
-          cd $(System.DefaultWorkingDirectory)
-          terrascan init
-          terrascan scan -i terraform -d . -o json > terrascan-report.json
+#     - task: PowerShell@2
+#       continueOnError: true
+#       displayName: Checkov Scanning ...
+#       inputs:
+#         targetType: 'inline'
+#         script: |
+#           cd $(System.DefaultWorkingDirectory)
+#           checkov -d . -o json --output-file-path checkov-report.json
+
+#     - task: PublishPipelineArtifact@1
+#       displayName: Checkov Report
+#       inputs:
+#         targetPath: '$(System.DefaultWorkingDirectory)/checkov-report.json'
+#         artifact: 'checkov_ki_report'
+#         publishLocation: 'pipeline'
 
 
-    - task: PublishPipelineArtifact@1
-      displayName: Terrascan Report
-      inputs:
-        targetPath: '$(System.DefaultWorkingDirectory)/terrascan-report.json'
-        artifact: 'Terrascan_ki_report'
-        publishLocation: 'pipeline'
+# #   3.> . . . . . . . . . . . . . " TERRASCAN" . . . . . . . . . . . . . . . . . 
+
+#     - task: PowerShell@2
+#       continueOnError: true
+#       displayName: Terrascan Scanning ...
+#       inputs:
+#         targetType: 'inline'
+#         script: |
+#           cd $(System.DefaultWorkingDirectory)
+#           terrascan init
+#           terrascan scan -i terraform -d . -o json > terrascan-report.json
+
+
+#     - task: PublishPipelineArtifact@1
+#       displayName: Terrascan Report
+#       inputs:
+#         targetPath: '$(System.DefaultWorkingDirectory)/terrascan-report.json'
+#         artifact: 'Terrascan_ki_report'
+#         publishLocation: 'pipeline'
 
 
 #   4.> . . . . . . . . . . . . . " TFSEC " . . . . . . . . . . . . . . . . . 
@@ -96,12 +96,12 @@ stages:
       inputs:
         version: 'v1.26.0'
         dir: '$(System.DefaultWorkingDirectory)'
-        args: '--format sarif --out $(System.DefaultWorkingDirectory)/tfsec-report.sarif'
+        args: '--format json --out tfsec-report.json'
         
     - task: PublishPipelineArtifact@1
       displayName: Tfsec Report
       inputs:
-        targetPath: '$(System.DefaultWorkingDirectory)/tfsec-report.sarif'
+        targetPath: '$(System.DefaultWorkingDirectory)/tfsec-report.json'
         artifact: 'tfsec_ki_report'
         publishLocation: 'pipeline'
 
