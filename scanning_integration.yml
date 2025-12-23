@@ -116,12 +116,6 @@ stages:
     #     publishLocation: 'pipeline'
 
 
-
-    - task: TerraformInstaller@1
-      displayName: Installing terraform
-      inputs:
-        terraformVersion: 'latest'
-
     - task: TerraformTask@5
       displayName: Terraform Init
       inputs:
