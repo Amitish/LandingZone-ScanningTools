@@ -117,34 +117,13 @@ stages:
 
 
 
-
-    # - task: TerraformTask@5
-    #   displayName: Init...
-    #   inputs:
-    #     provider: 'azurerm'
-    #     command: 'init'
-    #     workingDirectory: '$(System.DefaultWorkingDirectory)/Environment/dev'
-    #     backendServiceArm: 'amit-sc'
-    #     backendAzureRmStorageAccountName: 'stg121amit'
-    #     backendAzureRmContainerName: 'ctg121amit'
-    #     backendAzureRmKey: 'test.tfstate'
-
-    # - task: TerraformTask@5
-    #   inputs:
-    #     provider: 'azurerm'
-    #     command: 'plan'
-    #     workingDirectory: '$(System.DefaultWorkingDirectory)/Environment/dev'
-    #     environmentServiceNameAzureRM: 'new-service'
-
-
-####################################################################################################
-
     - task: TerraformInstaller@1
+      displayName: Installing terraform
       inputs:
         terraformVersion: 'latest'
 
     - task: TerraformTask@5
-      displayName: Init...
+      displayName: Terraform Init
       inputs:
         provider: 'azurerm'
         command: 'init'
