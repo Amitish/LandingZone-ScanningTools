@@ -87,17 +87,7 @@ stages:
 #         publishLocation: 'pipeline'
 
 
-#   4.> . . . . . . . . . . . . . " TFSEC " . . . . . . . . . . . . . . . . . 
-
-    # - task: tfsec@1
-    #   displayName: Tfsec Scanning . . . 
-    #   continueOnError: true
-    #   inputs:
-    #     version: 'v1.26.0'
-    #     dir: '$(System.DefaultWorkingDirectory)'
-
-
-#   5.> . . . . . . . . . . . . . " TRIVY " . . . . . . . . . . . . . . . . . 
+#   4.> . . . . . . . . . . . . . " TRIVY " . . . . . . . . . . . . . . . . . 
 
     # - task: PowerShell@2
     #   displayName: Trivy Scanning ...
@@ -116,7 +106,18 @@ stages:
     #     publishLocation: 'pipeline'
 
 
-    - task: TerraformInstaller@1      # No need to install since terraform is already on local pc
+#   5.> . . . . . . . . . . . . . " TFSEC " . . . . . . . . . . . . . . . . . 
+
+    # - task: tfsec@1
+    #   displayName: Tfsec Scanning . . . 
+    #   continueOnError: true
+    #   inputs:
+    #     version: 'v1.26.0'
+    #     dir: '$(System.DefaultWorkingDirectory)'
+
+
+
+    - task: TerraformInstaller@1      # No need to add since terraform is already on local pc
       inputs:
         terraformVersion: 'latest'
 
