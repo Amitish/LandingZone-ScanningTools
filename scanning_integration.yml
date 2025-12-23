@@ -78,7 +78,6 @@ stages:
 #           terrascan init
 #           terrascan scan -i terraform -d . -o json > terrascan-report.json
 
-
 #     - task: PublishPipelineArtifact@1
 #       displayName: Terrascan Report
 #       inputs:
@@ -89,29 +88,11 @@ stages:
 
 #   4.> . . . . . . . . . . . . . " TFSEC " . . . . . . . . . . . . . . . . . 
 
-
-    - task: PowerShell@2
-      displayName: 'Run tfsec scan (JSON)'
-      continueOnError: true
+    - task: tfsec@1
+      displayName: Tfsec Scanning . . . 
       inputs:
-        targetType: 'inline'
-        script: |
-          echo "Installing tfsec..."
-          choco install tfsec --version=1.26.0 -y
-
-          echo "Running tfsec scan..."
-          tfsec $(System.DefaultWorkingDirectory) --format json --out tfsec-report.json
-
-          echo "Files in working directory:"
-          dir
-
-        
-    - task: PublishPipelineArtifact@1
-      displayName: Tfsec Report
-      inputs:
-        targetPath: '$(System.DefaultWorkingDirectory)/tfsec-report.json'
-        artifact: 'tfsec_ki_report'
-        publishLocation: 'pipeline'
+        version: 'v1.26.0'
+        dir: '$(System.DefaultWorkingDirectory)'
 
 
 #   5.> . . . . . . . . . . . . . " TRIVY " . . . . . . . . . . . . . . . . . 
