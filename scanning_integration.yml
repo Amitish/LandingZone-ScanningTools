@@ -131,6 +131,13 @@ stages:
         backendAzureRmContainerName: 'ctg121amit'
         backendAzureRmKey: '${{ parameters.environment }}.tfstate'
 
+    - task: TerraformTask@5
+      inputs:
+        provider: 'azurerm'
+        command: 'plan'
+        workingDirectory: '$(path)'
+        environmentServiceNameAzureRM: 'amit-sc'
+
 
 
 ####################################################################################################
