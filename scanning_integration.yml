@@ -27,6 +27,33 @@ stages:
   - job: TerraformJob
     displayName: Terraform Flow
     steps:
+    - task: TerraformInstaller@1      # No need to add since terraform is already on local pc
+      displayName: Terraform Install
+      inputs:
+        terraformVersion: 'latest'
+
+    - task: TerraformTask@5
+      displayName: Terraform Init
+      inputs:
+        provider: 'azurerm'
+        command: 'init'
+        workingDirectory: '$(System.DefaultWorkingDirectory)\Environment\dev'
+        backendServiceArm: 'amit-sc'
+        backendAzureRmStorageAccountName: 'stg121amit'
+        backendAzureRmContainerName: 'ctg121amit'
+        backendAzureRmKey: 'dev.tfstate'
+
+    - task: TerraformTask@5
+      displayName: Terraform Plan
+      inputs:
+        provider: 'azurerm'
+        command: 'plan'
+        workingDirectory: '$(System.DefaultWorkingDirectory)\Environment\dev'
+        environmentServiceNameAzureRM: 'amit-sc'
+
+
+# #   1.> . . . . . . . . . . . . . " SonarQube" . . . . . . . . . . . . . . . . . 
+
 
     # - task: PowerShell@2
     #   displayName: SonarQube Scan (Community Edition)
@@ -36,7 +63,7 @@ stages:
     #       sonar-scanner -D sonar.projectKey=Monotodo -D sonar.projectName=Monotodo -D sonar.sources=. -D sonar.host.url=http://localhost:9000 -D sonar.login=sqa_470e100e10d2d83d4ef605cbd7f909d3a3dedddb
 
 
-# #   1.> . . . . . . . . . . . . . " TFLINT " . . . . . . . . . . . . . . . . . 
+# #   2.> . . . . . . . . . . . . . " TFLINT " . . . . . . . . . . . . . . . . . 
 
 #     - task: PowerShell@2
 #       displayName: Tflint Scanning ...
@@ -55,7 +82,7 @@ stages:
 #         publishLocation: 'pipeline'
 
 
-# #   2.> . . . . . . . . . . . . . " CHECKOV " . . . . . . . . . . . . . . . . . 
+# #   3.> . . . . . . . . . . . . . " CHECKOV " . . . . . . . . . . . . . . . . . 
 
 #     - task: PowerShell@2
 #       continueOnError: true
@@ -74,7 +101,7 @@ stages:
 #         publishLocation: 'pipeline'
 
 
-# #   3.> . . . . . . . . . . . . . " TERRASCAN" . . . . . . . . . . . . . . . . . 
+# #   4.> . . . . . . . . . . . . . " TERRASCAN" . . . . . . . . . . . . . . . . . 
 
 #     - task: PowerShell@2
 #       continueOnError: true
@@ -94,7 +121,7 @@ stages:
 #         publishLocation: 'pipeline'
 
 
-#   4.> . . . . . . . . . . . . . " TRIVY " . . . . . . . . . . . . . . . . . 
+#   5.> . . . . . . . . . . . . . " TRIVY " . . . . . . . . . . . . . . . . . 
 
     # - task: PowerShell@2
     #   displayName: Trivy Scanning ...
@@ -113,7 +140,7 @@ stages:
     #     publishLocation: 'pipeline'
 
 
-#   5.> . . . . . . . . . . . . . " TFSEC " . . . . . . . . . . . . . . . . . 
+#   6.> . . . . . . . . . . . . . " TFSEC " . . . . . . . . . . . . . . . . . 
 
     # - task: tfsec@1
     #   displayName: Tfsec Scanning . . . 
@@ -121,30 +148,6 @@ stages:
     #   inputs:
     #     version: 'v1.26.0'
     #     dir: '$(System.DefaultWorkingDirectory)'
-
-
-    - task: TerraformInstaller@1      # No need to add since terraform is already on local pc
-      inputs:
-        terraformVersion: 'latest'
-
-    # - task: TerraformTask@5
-    #   displayName: Terraform Init
-    #   inputs:
-    #     provider: 'azurerm'
-    #     command: 'init'
-    #     workingDirectory: '$(path)'
-    #     backendServiceArm: 'amit-sc'
-    #     backendAzureRmStorageAccountName: 'stg121amit'
-    #     backendAzureRmContainerName: 'ctg121amit'
-    #     backendAzureRmKey: '${{ parameters.environment }}.tfstate'
-
-    # - task: TerraformTask@5
-    #   displayName: Terraform Plan
-    #   inputs:
-    #     provider: 'azurerm'
-    #     command: 'plan'
-    #     workingDirectory: '$(path)'
-    #     environmentServiceNameAzureRM: 'amit-sc'
 
 
 
