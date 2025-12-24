@@ -11,13 +11,13 @@ pool:
 #   value: $(System.DefaultWorkingDirectory)\Environment\${{ parameters.environment }}
 
 
-# parameters:
-# - name: environment
-#   type: string
-#   default: dev
-#   values:
-#     - dev
-#     - prod
+parameters:
+- name: environment
+  type: string
+  default: dev
+  values:
+    - dev
+    - prod
 
 
 stages:
@@ -28,12 +28,12 @@ stages:
     displayName: Terraform Flow
     steps:
 
-    - task: PowerShell@2
-      displayName: SonarQube Scan (Community Edition)
-      inputs:
-        targetType: 'inline'
-        script: |
-          sonar-scanner -D sonar.projectKey=Monotodo -D sonar.projectName=Monotodo -D sonar.sources=. -D sonar.host.url=http://localhost:9000 -D sonar.login=sqa_470e100e10d2d83d4ef605cbd7f909d3a3dedddb
+    # - task: PowerShell@2
+    #   displayName: SonarQube Scan (Community Edition)
+    #   inputs:
+    #     targetType: 'inline'
+    #     script: |
+    #       sonar-scanner -D sonar.projectKey=Monotodo -D sonar.projectName=Monotodo -D sonar.sources=. -D sonar.host.url=http://localhost:9000 -D sonar.login=sqa_470e100e10d2d83d4ef605cbd7f909d3a3dedddb
 
 
 # #   1.> . . . . . . . . . . . . . " TFLINT " . . . . . . . . . . . . . . . . . 
@@ -124,28 +124,28 @@ stages:
 
 
 
-    # - task: TerraformInstaller@1      # No need to add since terraform is already on local pc
-    #   inputs:
-    #     terraformVersion: 'latest'
+    - task: TerraformInstaller@1      # No need to add since terraform is already on local pc
+      inputs:
+        terraformVersion: 'latest'
 
-    # - task: TerraformTask@5
-    #   displayName: Terraform Init
-    #   inputs:
-    #     provider: 'azurerm'
-    #     command: 'init'
-    #     workingDirectory: '$(path)'
-    #     backendServiceArm: 'amit-sc'
-    #     backendAzureRmStorageAccountName: 'stg121amit'
-    #     backendAzureRmContainerName: 'ctg121amit'
-    #     backendAzureRmKey: '${{ parameters.environment }}.tfstate'
+    - task: TerraformTask@5
+      displayName: Terraform Init
+      inputs:
+        provider: 'azurerm'
+        command: 'init'
+        workingDirectory: '$(path)'
+        backendServiceArm: 'amit-sc'
+        backendAzureRmStorageAccountName: 'stg121amit'
+        backendAzureRmContainerName: 'ctg121amit'
+        backendAzureRmKey: '${{ parameters.environment }}.tfstate'
 
-    # - task: TerraformTask@5
-    #   displayName: Terraform Init
-    #   inputs:
-    #     provider: 'azurerm'
-    #     command: 'plan'
-    #     workingDirectory: '$(path)'
-    #     environmentServiceNameAzureRM: 'amit-sc'
+    - task: TerraformTask@5
+      displayName: Terraform Init
+      inputs:
+        provider: 'azurerm'
+        command: 'plan'
+        workingDirectory: '$(path)'
+        environmentServiceNameAzureRM: 'amit-sc'
 
 
 
