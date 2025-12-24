@@ -140,7 +140,7 @@ stages:
         backendAzureRmKey: '${{ parameters.environment }}.tfstate'
 
     - task: TerraformTask@5
-      displayName: Terraform Init
+      displayName: Terraform Plan
       inputs:
         provider: 'azurerm'
         command: 'plan'
