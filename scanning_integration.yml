@@ -4,11 +4,11 @@ pool:
   name: mera-pool
 
 
-# variables:
-# - group: infracost_var
+variables:
+- group: infracost_var
 
-# - name: path
-#   value: $(System.DefaultWorkingDirectory)\Environment\${{ parameters.environment }}
+- name: path
+  value: $(System.DefaultWorkingDirectory)\Environment\${{ parameters.environment }}
 
 
 parameters:
