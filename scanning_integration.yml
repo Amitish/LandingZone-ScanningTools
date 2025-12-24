@@ -1,0 +1,230 @@
+trigger: none
+
+pool:
+  name: mera-pool
+
+
+# variables:
+# - group: infracost_var
+
+# - name: path
+#   value: $(System.DefaultWorkingDirectory)\Environment\${{ parameters.environment }}
+
+
+# parameters:
+# - name: environment
+#   type: string
+#   default: dev
+#   values:
+#     - dev
+#     - prod
+
+
+stages:
+- stage: Terraform
+  displayName: Terraform CI
+  jobs:
+  - job: TerraformJob
+    displayName: Terraform Flow
+    steps:
+    - task: DownloadSecureFile@1              # to securely download terraform.tfvars from secure files
+      name: tfvars
+      displayName: Download terraform.tfvars
+      inputs:
+        secureFile: 'terraform.tfvars'
+
+    - task: TerraformTask@5
+      displayName: Terraform Init
+      inputs:
+        provider: 'azurerm'
+        command: 'init'
+        workingDirectory: '$(System.DefaultWorkingDirectory)\Environment\dev'
+        backendServiceArm: 'amit-sc'
+        backendAzureRmStorageAccountName: 'stg121amit'
+        backendAzureRmContainerName: 'ctg121amit'
+        backendAzureRmKey: 'dev.tfstate'
+
+    - task: TerraformTask@5
+      displayName: Terraform Plan
+      inputs:
+        provider: 'azurerm'
+        command: 'plan'
+        workingDirectory: '$(System.DefaultWorkingDirectory)\Environment\dev'
+        commandOptions: >
+          -out=tfplan
+          -var-file="$(tfvars.secureFilePath)"
+        environmentServiceNameAzureRM: 'amit-sc'
+
+    - task: PowerShell@2
+      displayName: Infracost Cost Breakdown
+      inputs:
+        targetType: inline
+        workingDirectory: '$(System.DefaultWorkingDirectory)\Environment\dev'
+        script: |
+          infracost --version
+          infracost breakdown --path tfplan
+          infracost breakdown --path tfplan `
+            --format table `
+            --out-file infracost-table.txt
+
+    - task: PublishPipelineArtifact@1
+      displayName: Infracost Report
+      inputs:
+        targetPath: '$(System.DefaultWorkingDirectory)\Environment\dev\infracost-table.txt'
+        artifact: infracost-report
+        publishLocation: pipeline
+
+
+#   1.> . . . . . . . . . . . . . " SonarQube" . . . . . . . . . . . . . . . . . 
+
+
+    - task: PowerShell@2
+      displayName: SonarQube Scan (Community Edition)
+      inputs:
+        targetType: 'inline'
+        script: |
+          sonar-scanner -D sonar.projectKey=Monotodo -D sonar.projectName=Monotodo -D sonar.sources=. -D sonar.host.url=http://localhost:9000 -D sonar.login=sqa_470e100e10d2d83d4ef605cbd7f909d3a3dedddb
+
+
+#   2.> . . . . . . . . . . . . . " TFLINT " . . . . . . . . . . . . . . . . . 
+
+    - task: PowerShell@2
+      displayName: Tflint Scanning ...
+      inputs:
+        targetType: 'inline'
+        script: |
+          cd $(System.DefaultWorkingDirectory)
+          tflint --recursive
+          tflint --format=json > tflint_report.json
+
+    - task: PublishPipelineArtifact@1
+      displayName: Tflint Report
+      inputs:
+        targetPath: '$(System.DefaultWorkingDirectory)/tflint_report.json'
+        artifact: 'tflint_ki_report'
+        publishLocation: 'pipeline'
+
+
+#   3.> . . . . . . . . . . . . . " CHECKOV " . . . . . . . . . . . . . . . . . 
+
+    - task: PowerShell@2
+      continueOnError: true
+      displayName: Checkov Scanning ...
+      inputs:
+        targetType: 'inline'
+        script: |
+          cd $(System.DefaultWorkingDirectory)
+          checkov -d . -o json --output-file-path checkov-report.json
+
+    - task: PublishPipelineArtifact@1
+      displayName: Checkov Report
+      inputs:
+        targetPath: '$(System.DefaultWorkingDirectory)/checkov-report.json'
+        artifact: 'checkov_ki_report'
+        publishLocation: 'pipeline'
+
+
+#   4.> . . . . . . . . . . . . . " TERRASCAN" . . . . . . . . . . . . . . . . . 
+
+    - task: PowerShell@2
+      continueOnError: true
+      displayName: Terrascan Scanning ...
+      inputs:
+        targetType: 'inline'
+        script: |
+          cd $(System.DefaultWorkingDirectory)
+          terrascan init
+          terrascan scan -i terraform -d . -o json > terrascan-report.json
+
+    - task: PublishPipelineArtifact@1
+      displayName: Terrascan Report
+      inputs:
+        targetPath: '$(System.DefaultWorkingDirectory)/terrascan-report.json'
+        artifact: 'Terrascan_ki_report'
+        publishLocation: 'pipeline'
+
+
+  # 5.> . . . . . . . . . . . . . " TRIVY " . . . . . . . . . . . . . . . . . 
+
+    - task: PowerShell@2
+      displayName: Trivy Scanning ...
+      inputs:
+        targetType: 'inline'
+        script: |
+          cd $(System.DefaultWorkingDirectory)
+          trivy config .
+          trivy config . --format json --output trivy-report.json
+
+    - task: PublishPipelineArtifact@1
+      displayName: Trivy Report
+      inputs:
+        targetPath: '$(System.DefaultWorkingDirectory)/trivy-report.json'
+        artifact: 'Trivy_ki_report'
+        publishLocation: 'pipeline'
+
+
+  # 6.> . . . . . . . . . . . . . " TFSEC " . . . . . . . . . . . . . . . . . 
+
+    - task: tfsec@1
+      displayName: Tfsec Scanning . . . 
+      continueOnError: true
+      inputs:
+        version: 'v1.26.0'
+        dir: '$(System.DefaultWorkingDirectory)'
+
+
+
+
+
+
+
+
+####################################################################################################
+
+
+    # - task: CmdLine@2
+    #   displayName: testing alpha charle 1 2 3 . . .
+    #   inputs:
+    #     script: |         
+    #       echo testing alpha charle 1 2 3 . . . 
+
+    # - task: CmdLine@2
+    #   displayName: Install TFLint
+    #   inputs:
+    #     script: |
+    #       echo Installing TFLint...
+    #       C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -Command ^
+    #       "Invoke-WebRequest https://github.com/terraform-linters/tflint/releases/download/v0.50.3/tflint_windows_amd64.zip -OutFile tflint.zip; ^
+    #       Expand-Archive tflint.zip -DestinationPath . -Force; ^
+    #       Move-Item tflint.exe C:\Windows\System32\ -Force"
+    #       tflint --version
+
+    # - task: CmdLine@2
+    #   continueOnError: true
+    #   displayName: Run TFLint
+    #   inputs:
+    #     script: |
+    #       cd $(System.DefaultWorkingDirectory)
+    #       tflint --recursive
+    #       tflint --format=json > tflint_report.json
+
+
+    # - task: CmdLine@2
+    #   displayName: Run TFLint
+    #   inputs:
+    #     script: |
+    #       echo "Running TFLint..."
+          
+    #       tflint --recursive D:\tflint_windows_386
+    # - task: PowerShell@2
+    #   continueOnError: true
+    #   inputs:
+    #     targetType: 'inline'
+    #     script: |
+    #       winget install TerraformLinters.tflint     
+    #       ls   
+    #       tflint
+    #     errorActionPreference: 'continue'        
+    #     workingDirectory: '$(path)'
+
+
