@@ -55,7 +55,24 @@ stages:
           -var-file="$(tfvars.secureFilePath)"
         environmentServiceNameAzureRM: 'amit-sc'
 
+    - task: PowerShell@2
+      displayName: Infracost Cost Breakdown
+      inputs:
+        targetType: inline
+        workingDirectory: '$(System.DefaultWorkingDirectory)\Environment\dev'
+        script: |
+          infracost --version
+          infracost breakdown --path tfplan
+          infracost breakdown --path tfplan `
+            --format table `
+            --out-file infracost-table.txt
 
+    - task: PublishPipelineArtifact@1
+      displayName: Infracost Report
+      inputs:
+        targetPath: '$(System.DefaultWorkingDirectory)\Environment\dev\infracost-table.txt'
+        artifact: infracost-report
+        publishLocation: pipeline
 
 # #   1.> . . . . . . . . . . . . . " SonarQube" . . . . . . . . . . . . . . . . . 
 
