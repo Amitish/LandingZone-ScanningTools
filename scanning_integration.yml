@@ -28,7 +28,7 @@ stages:
     displayName: Terraform Flow
     steps:
     - task: DownloadSecureFile@1
-      name: tfvars                     # 👈 NAME YAHAN HOGA
+      name: tfvars
       displayName: Download terraform.tfvars
       inputs:
         secureFile: 'terraform.tfvars'
