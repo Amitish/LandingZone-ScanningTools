@@ -27,6 +27,12 @@ stages:
   - job: TerraformJob
     displayName: Terraform Flow
     steps:
+
+    - task: DownloadSecureFile@1
+      displayName: Download terraform.tfvars
+      inputs:
+        secureFile: 'terraform.tfvars'
+    
     - task: TerraformInstaller@1      # No need to add since terraform is already on local pc
       displayName: Terraform Install
       inputs:
@@ -49,7 +55,11 @@ stages:
         provider: 'azurerm'
         command: 'plan'
         workingDirectory: '$(System.DefaultWorkingDirectory)\Environment\dev'
+        commandOptions: >
+          -out=tfplan
+          -var-file="$(tfvars.secureFilePath)"
         environmentServiceNameAzureRM: 'amit-sc'
+
 
 
 # #   1.> . . . . . . . . . . . . . " SonarQube" . . . . . . . . . . . . . . . . . 
