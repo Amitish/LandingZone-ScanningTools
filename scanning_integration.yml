@@ -19,67 +19,19 @@ pool:
 #     - dev
 #     - prod
 
+#. . . . . . . . . . . . . " STAGE 1" . . . . . . . . . . . . . . . . . 
 
 stages:
-- stage: Terraform
-  displayName: Terraform CI
+- stage: scanning
+  displayName: SecOps Scanning
   jobs:
-  - job: TerraformJob
-    displayName: Terraform Flow
+  - job:
+    displayName: Code Scanning
     steps:
-    - task: DownloadSecureFile@1              # to securely download terraform.tfvars from secure files
-      name: tfvars
-      displayName: Download terraform.tfvars
-      inputs:
-        secureFile: 'terraform.tfvars'
-
-    - task: TerraformTask@5
-      displayName: Terraform Init
-      inputs:
-        provider: 'azurerm'
-        command: 'init'
-        workingDirectory: '$(System.DefaultWorkingDirectory)\Environment\dev'
-        backendServiceArm: 'amit-sc'
-        backendAzureRmStorageAccountName: 'stg121amit'
-        backendAzureRmContainerName: 'ctg121amit'
-        backendAzureRmKey: 'dev.tfstate'
-
-    - task: TerraformTask@5
-      displayName: Terraform Plan
-      inputs:
-        provider: 'azurerm'
-        command: 'plan'
-        workingDirectory: '$(System.DefaultWorkingDirectory)\Environment\dev'
-        commandOptions: >
-          -out=tfplan
-          -var-file="$(tfvars.secureFilePath)"
-        environmentServiceNameAzureRM: 'amit-sc'
-
-    - task: PowerShell@2
-      displayName: Infracost Cost Breakdown
-      inputs:
-        targetType: inline
-        workingDirectory: '$(System.DefaultWorkingDirectory)\Environment\dev'
-        script: |
-          infracost --version
-          infracost breakdown --path tfplan
-          infracost breakdown --path tfplan `
-            --format table `
-            --out-file infracost-table.txt
-
-    - task: PublishPipelineArtifact@1
-      displayName: Infracost Report
-      inputs:
-        targetPath: '$(System.DefaultWorkingDirectory)\Environment\dev\infracost-table.txt'
-        artifact: infracost-report
-        publishLocation: pipeline
-
 
 #   1.> . . . . . . . . . . . . . " SonarQube" . . . . . . . . . . . . . . . . . 
-
-
     - task: PowerShell@2
-      displayName: SonarQube Scan (Community Edition)
+      displayName: SonarQube Scan (Community Edition) ...
       inputs:
         targetType: 'inline'
         script: |
@@ -173,11 +125,103 @@ stages:
         dir: '$(System.DefaultWorkingDirectory)'
 
 
+#. . . . . . . . . . . . . " STAGE 2" . . . . . . . . . . . . . . . . . 
+
+- stage: initialization
+  displayName: Build Initialization
+  jobs:
+  - job: TerraformJob
+    displayName: Terraform Flow
+    steps:
+
+    - task: TerraformTask@5
+      displayName: Terraform Init
+      inputs:
+        provider: 'azurerm'
+        command: 'init'
+        workingDirectory: '$(System.DefaultWorkingDirectory)\Environment\dev'
+        backendServiceArm: 'amit-sc'
+        backendAzureRmStorageAccountName: 'stg121amit'
+        backendAzureRmContainerName: 'ctg121amit'
+        backendAzureRmKey: 'dev.tfstate'
+
+    - task: TerraformTask@5
+      displayName: Terraform Plan
+      inputs:
+        provider: 'azurerm'
+        command: 'plan'
+        workingDirectory: '$(System.DefaultWorkingDirectory)\Environment\dev'
+        commandOptions: >
+          -out=tfplan
+          -var-file="$(tfvars.secureFilePath)"
+        environmentServiceNameAzureRM: 'amit-sc'
+
+
+#. . . . . . . . . . . . . " STAGE 3" . . . . . . . . . . . . . . . . . 
+
+- stage: costanalysis
+  displayName: FinOps Validation
+  jobs:
+  - job: Costing
+    displayName: Cost Analysis
+    steps:
+    - task: DownloadSecureFile@1              # to securely download terraform.tfvars from secure files
+      name: tfvars
+      displayName: Download terraform.tfvars
+      inputs:
+        secureFile: 'terraform.tfvars'
+
+#   1.> . . . . . . . . . . . . . "Infracost" . . . . . . . . . . . . . . . . . 
+
+    - task: PowerShell@2
+      displayName: Infracost Cost Breakdown
+      inputs:
+        targetType: inline
+        workingDirectory: '$(System.DefaultWorkingDirectory)\Environment\dev'
+        script: |
+          infracost --version
+          infracost breakdown --path tfplan
+          infracost breakdown --path tfplan `
+            --format table `
+            --out-file infracost-table.txt
+
+    - task: PublishPipelineArtifact@1
+      displayName: Infracost Report
+      inputs:
+        targetPath: '$(System.DefaultWorkingDirectory)\Environment\dev\infracost-table.txt'
+        artifact: infracost-report
+        publishLocation: pipeline
+
+
+#. . . . . . . . . . . . . " STAGE 4" . . . . . . . . . . . . . . . . . 
+
+- stage: validation
+  displayName: Manual Approval Gate
+  jobs:
+  - job: approver
+    displayName: Manual validation
+    steps:
+    - task: ManualValidation@1
+      inputs:
+        notifyUsers: 'Kindly check and approve accordingly'
+        approvers: 'bisht.amit08@gmail.com'
+        instructions: 'If rejected then check the code thoroughly'
 
 
 
+#. . . . . . . . . . . . . " STAGE 5" . . . . . . . . . . . . . . . . . 
 
-
+# - stage: deployment
+#   displayName: Infrastructure Provisioning
+#   jobs:
+#   - job: apply
+#     displayName: Terraform apply
+#     steps:
+#     - task: TerraformTask@5
+#       inputs:
+#         provider: 'azurerm'
+#         command: 'plan'
+#         environmentServiceNameAzureRM: 'amit-sc'
 
 ####################################################################################################
 
