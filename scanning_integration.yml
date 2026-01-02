@@ -25,11 +25,12 @@ stages:
 - stage: scanning
   displayName: SecOps Scanning
   jobs:
-  - job:
-    displayName: Code Scanning
-    steps:
 
 #   1.> . . . . . . . . . . . . . " SonarQube" . . . . . . . . . . . . . . . . . 
+
+  - job:
+    displayName: SonarQube Scan (Community Edition)
+    steps:
     - task: PowerShell@2
       displayName: SonarQube Scan (Community Edition) ...
       inputs:
@@ -40,6 +41,9 @@ stages:
 
 #   2.> . . . . . . . . . . . . . " TFLINT " . . . . . . . . . . . . . . . . . 
 
+  - job:
+    displayName: Tflint Scanning
+    steps:
     - task: PowerShell@2
       displayName: Tflint Scanning ...
       inputs:
@@ -59,6 +63,9 @@ stages:
 
 #   3.> . . . . . . . . . . . . . " CHECKOV " . . . . . . . . . . . . . . . . . 
 
+  - job:
+    displayName: Checkov Scanning
+    steps:
     - task: PowerShell@2
       continueOnError: true
       displayName: Checkov Scanning ...
@@ -78,6 +85,9 @@ stages:
 
 #   4.> . . . . . . . . . . . . . " TERRASCAN" . . . . . . . . . . . . . . . . . 
 
+  - job:
+    displayName: Terrascan Scanning
+    steps:
     - task: PowerShell@2
       continueOnError: true
       displayName: Terrascan Scanning ...
@@ -98,6 +108,9 @@ stages:
 
   # 5.> . . . . . . . . . . . . . " TRIVY " . . . . . . . . . . . . . . . . . 
 
+  - job:
+    displayName: Trivy Scanning
+    steps:
     - task: PowerShell@2
       displayName: Trivy Scanning ...
       inputs:
@@ -117,6 +130,9 @@ stages:
 
   # 6.> . . . . . . . . . . . . . " TFSEC " . . . . . . . . . . . . . . . . . 
 
+  - job:
+    displayName: Tfsec Scanning
+    steps:
     - task: tfsec@1
       displayName: Tfsec Scanning . . . 
       continueOnError: true
