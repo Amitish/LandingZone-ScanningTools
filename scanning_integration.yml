@@ -211,18 +211,18 @@ stages:
 
 #. . . . . . . . . . . . . " STAGE 4" . . . . . . . . . . . . . . . . . 
 
-# - stage: validation
-#   displayName: Manual Approval Gate
-#   jobs:
-#   - job: approver
-#     displayName: Manual validation
-#     steps:
-#     - task: ManualValidation@1
-#       inputs:
-#         notifyUsers: 'Kindly check and approve accordingly'
-#         approvers: 'bisht.amit08@gmail.com'
-#         instructions: 'If rejected then check the code thoroughly'
-
+- stage: validation
+  pool: server
+  displayName: Manual Approval Gate
+  jobs:
+  - job: approver
+    displayName: Manual validation
+    steps:
+    - task: ManualValidation@1
+      inputs:
+        notifyUsers: 'Kindly check and approve accordingly'
+        approvers: 'bisht.amit08@gmail.com'
+        instructions: 'If rejected then check the code thoroughly'
 
 
 #. . . . . . . . . . . . . " STAGE 5" . . . . . . . . . . . . . . . . . 
